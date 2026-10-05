@@ -1,7 +1,7 @@
 {
-  "name": "Rutina de Entrenamiento",
+  "name": "Rutina · Felipe & Mawi",
   "short_name": "Rutina",
-  "description": "Seguimiento de entrenamiento diario, series, descansos y técnica de ejercicios",
+  "description": "Seguimiento de entrenamiento diario, series, descansos y técnica de ejercicios para Felipe y Mawi",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

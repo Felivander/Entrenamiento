@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" href="icon.svg">
-<title>Rutina de Entrenamiento</title>
+<title>Rutina · Felipe & Mawi</title>
 <style>
 :root {
   --bg: #0c1218;
@@ -24,6 +24,8 @@
   --ok: #10b981;
   --ok-glow: rgba(16, 185, 129, 0.25);
   --warn: #f59e0b;
+  --pink: #ec4899;
+  --pink-glow: rgba(236, 72, 153, 0.25);
   --bd: #233446;
   --bd-light: #2e445b;
   box-sizing: border-box;
@@ -42,6 +44,8 @@
   --ok: #059669;
   --ok-glow: rgba(5, 150, 105, 0.18);
   --warn: #d97706;
+  --pink: #db2777;
+  --pink-glow: rgba(219, 39, 119, 0.18);
   --bd: #e2e8f0;
   --bd-light: #cbd5e1;
 }
@@ -51,70 +55,130 @@ body {
   background: var(--bg);
   color: var(--tx);
   font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-  padding: 16px 14px 175px;
+  padding: 14px 14px 175px;
   max-width: 580px;
   user-select: none;
   -webkit-user-select: none;
   transition: background-color 0.2s, color 0.2s;
 }
 
-/* Header & Controls */
+/* Header & Profile Switcher */
 .top-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  gap: 8px;
 }
-h1 {
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin: 0;
+.profile-switcher {
+  display: flex;
+  background: var(--bg-soft);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  padding: 3px;
+  gap: 3px;
+}
+.profile-btn {
+  background: transparent;
+  border: none;
+  color: var(--mu);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 11px;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.profile-btn.active[data-p="felipe"] {
+  background: var(--ac);
+  color: #041019;
+  box-shadow: 0 2px 8px var(--ac-glow);
+}
+.profile-btn.active[data-p="mawi"] {
+  background: var(--pink);
+  color: #ffffff;
+  box-shadow: 0 2px 8px var(--pink-glow);
 }
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 .btn-icon {
   background: var(--card);
   border: 1px solid var(--bd);
   color: var(--tx);
-  width: 36px;
-  height: 36px;
+  width: 35px;
+  height: 35px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 .btn-icon:active { transform: scale(0.92); }
 .btn-icon.off {
-  opacity: 0.5;
+  opacity: 0.45;
   color: var(--mu);
 }
 .streak-badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   background: var(--card);
   border: 1px solid var(--bd);
-  padding: 6px 11px;
+  padding: 6px 10px;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   color: #fb923c;
+  white-space: nowrap;
 }
 .sub {
   color: var(--mu);
   font-size: 13.5px;
   margin-bottom: 12px;
 }
+
+/* Info Banner for Mawi */
+.info-card {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(56, 189, 248, 0.08));
+  border: 1px solid var(--pink-glow);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.info-card summary {
+  font-weight: 700;
+  color: var(--pink);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.info-card summary::-webkit-details-marker { display: none; }
+.info-card summary::after {
+  content: '▾';
+  font-size: 14px;
+  transition: transform 0.2s;
+}
+.info-card[open] summary::after {
+  transform: rotate(180deg);
+}
+.info-card ul {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  color: var(--tx);
+}
+.info-card li { margin-bottom: 5px; }
 
 /* Weekly streak pills */
 .week-bar {
@@ -190,6 +254,12 @@ h1 {
   border-color: var(--ac);
   box-shadow: 0 2px 10px var(--ac-glow);
 }
+body[data-active-p="mawi"] .tab.on {
+  background: var(--pink);
+  color: #ffffff;
+  border-color: var(--pink);
+  box-shadow: 0 2px 10px var(--pink-glow);
+}
 
 /* Progress bar */
 .prog-box {
@@ -221,6 +291,9 @@ h1 {
   height: 100%;
   background: linear-gradient(90deg, var(--ac), var(--ok));
   transition: width 0.35s ease;
+}
+body[data-active-p="mawi"] .prog i {
+  background: linear-gradient(90deg, var(--pink), var(--ok));
 }
 
 /* Celebration win card */
@@ -368,6 +441,10 @@ h2 {
   color: var(--ac);
   border-color: rgba(56, 189, 248, 0.4);
 }
+body[data-active-p="mawi"] .pill-timer {
+  color: var(--pink);
+  border-color: var(--pink-glow);
+}
 .btn-info {
   display: inline-flex;
   align-items: center;
@@ -380,6 +457,9 @@ h2 {
   padding: 0;
   margin-top: 6px;
   cursor: pointer;
+}
+body[data-active-p="mawi"] .btn-info {
+  color: var(--pink);
 }
 
 /* Series dots */
@@ -404,6 +484,10 @@ h2 {
   justify-content: center;
   transition: all 0.15s ease;
 }
+body[data-active-p="mawi"] .dot {
+  border-color: var(--pink);
+  color: var(--pink);
+}
 .dot:active {
   transform: scale(0.9);
 }
@@ -419,9 +503,14 @@ h2 {
   box-shadow: 0 0 0 4px var(--ac-glow);
   animation: pulseNext 2s infinite ease-in-out;
 }
+body[data-active-p="mawi"] .dot.next {
+  border-color: var(--pink);
+  background: rgba(236, 72, 153, 0.12);
+  box-shadow: 0 0 0 4px var(--pink-glow);
+}
 @keyframes pulseNext {
-  0%, 100% { box-shadow: 0 0 0 3px var(--ac-glow); }
-  50% { box-shadow: 0 0 0 6px var(--ac-glow); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
 }
 .dot:disabled {
   opacity: 0.35;
@@ -476,6 +565,7 @@ h2 {
   border-radius: 6px;
 }
 #bmode.work { background: rgba(56, 189, 248, 0.2); color: var(--ac); }
+body[data-active-p="mawi"] #bmode.work { background: rgba(236, 72, 153, 0.2); color: var(--pink); }
 #bmode.rest { background: rgba(16, 185, 129, 0.2); color: var(--ok); }
 #bmode.paused { background: rgba(245, 158, 11, 0.2); color: var(--warn); }
 .timer-mid {
@@ -493,6 +583,7 @@ h2 {
   line-height: 1;
 }
 #bt.work { color: var(--ac); }
+body[data-active-p="mawi"] #bt.work { color: var(--pink); }
 #bt.rest { color: var(--ok); }
 #bt.paused { opacity: 0.6; }
 .timer-prog {
@@ -509,6 +600,7 @@ h2 {
   transition: width 0.25s linear;
 }
 #bt.work ~ .timer-prog i { background: var(--ac); }
+body[data-active-p="mawi"] #bt.work ~ .timer-prog i { background: var(--pink); }
 .br {
   display: flex;
   gap: 8px;
@@ -527,6 +619,7 @@ h2 {
 }
 .br button:active { transform: scale(0.96); background: var(--bd); }
 .br #b15 { color: var(--ac); }
+body[data-active-p="mawi"] .br #b15 { color: var(--pink); }
 .br #bpause { color: var(--warn); }
 .br #bsk { color: var(--ok); }
 .br #bx { color: var(--mu); }
@@ -713,7 +806,10 @@ h2 {
 <body>
 
 <div class="top-nav">
-  <h1>⚡ Rutina</h1>
+  <div class="profile-switcher">
+    <button class="profile-btn active" data-p="felipe">⚡ Felipe</button>
+    <button class="profile-btn" data-p="mawi">🌸 Mawi</button>
+  </div>
   <div class="header-actions">
     <button class="btn-icon" id="btnSound" title="Alternar Sonido">🔊</button>
     <button class="btn-icon" id="btnHaptic" title="Alternar Vibración">📳</button>
@@ -730,6 +826,9 @@ h2 {
   </div>
   <button id="pwaInstallBtn">Instalar</button>
 </div>
+
+<!-- Info banner for profile (Mawi) -->
+<div id="profileInfoBox"></div>
 
 <!-- Weekly streak tracking bar -->
 <div class="week-bar" id="weekBar"></div>
@@ -796,7 +895,7 @@ h2 {
 
 <script>
 /* ==========================================================================
-   CONFIGURACIÓN Y PREFERENCIAS (Sonido, Vibración, Tema)
+   CONFIGURACIÓN Y PREFERENCIAS
    ========================================================================== */
 const CFG = {
   sound: true,
@@ -855,7 +954,7 @@ applyToggles();
 const CDN_BASE = 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/';
 
 const EX_DB = {
-  // Entrada en calor
+  // --- EJERCICIOS FELIPE ---
   soga_suave: {
     name: 'Soga suave', sets: 1, reps: '3 min', rest: 0, work: 180,
     gif: 'cardio/jump-rope.gif',
@@ -921,8 +1020,6 @@ const EX_DB = {
     ],
     yt: 'jumping jacks tecnica salto tijera'
   },
-
-  // Día 1: Tren superior
   dominadas: {
     name: 'Dominadas', sets: 5, reps: '4-8 reps', rest: 90, work: 0,
     gif: 'lats/pull-up.gif',
@@ -970,8 +1067,6 @@ const EX_DB = {
     ],
     yt: 'dead hang colgarse de la barra beneficios'
   },
-
-  // Día 2: Piernas y potencia
   sentadilla_bulgara: {
     name: 'Sentadilla búlgara', sets: 4, reps: '8-10 por pierna', rest: 90, work: 0,
     gif: 'quads/split-squats.gif',
@@ -1018,8 +1113,6 @@ const EX_DB = {
     ],
     yt: 'elevacion de talones gemelos de pie'
   },
-
-  // Día 3: Cardio y agilidad
   soga_intensa: {
     name: 'Soga (1 min saltando)', sets: 10, reps: '1 min', rest: 30, work: 60,
     gif: 'cardio/jump-rope.gif',
@@ -1047,8 +1140,6 @@ const EX_DB = {
     ],
     yt: 'ejercicios escalera de agilidad futbol'
   },
-
-  // Día 4: Cuerpo completo
   chin_ups: {
     name: 'Chin-ups (agarre supino)', sets: 4, reps: '4-8 reps', rest: 90, work: 0,
     gif: 'lats/chin-up.gif',
@@ -1094,8 +1185,6 @@ const EX_DB = {
     ],
     yt: 'fondos en banco triceps tecnica'
   },
-
-  // Día 5: Específico de fútbol
   sprints: {
     name: 'Sprints de 20-30 m', sets: 8, reps: '1 sprint', rest: 60, work: 0,
     gif: 'cardio/run.gif',
@@ -1132,8 +1221,6 @@ const EX_DB = {
     ],
     yt: 'box jumps saltos al banco tecnica'
   },
-
-  // Core
   plancha: {
     name: 'Plancha', sets: 3, reps: '30-45 s', rest: 45, work: 40,
     gif: 'abs/front-plank-with-twist.gif',
@@ -1178,22 +1265,172 @@ const EX_DB = {
       'Mantené el abdomen activo sin forzar la curvatura lumbar.'
     ],
     yt: 'puente de gluteos en el suelo tecnica'
+  },
+
+  // --- EJERCICIOS MAWI ---
+  m_sentadilla: {
+    name: 'Sentadilla (con mochila al pecho cuando sea fácil)', sets: 3, reps: '12-15 reps', rest: 75, work: 0,
+    gif: 'quads/dumbbell-goblet-squat.gif',
+    tips: [
+      'Pies al ancho de hombros, puntas levemente hacia afuera.',
+      'Pecho erguido, bajá empujando las rodillas hacia afuera y empujá desde los talones.',
+      'Cuando 15 reps sin peso resulten fáciles, abrazá una mochila cargada pegada al pecho.'
+    ],
+    yt: 'sentadilla copa con peso mochila al pecho tecnica'
+  },
+  m_puente: {
+    name: 'Puente de glúteos (a una pierna cuando sea fácil)', sets: 3, reps: '12-15 reps', rest: 60, work: 0,
+    gif: 'glutes/single-leg-bridge-with-outstretched-leg.gif',
+    tips: [
+      'Pies apoyados cerca de los glúteos.',
+      'Empujá desde los talones y apretá fuerte los glúteos 2 segundos en el punto más alto.',
+      'Progresión: cuando 15 reps sean fáciles, hacelo a una pierna extendiendo la otra.'
+    ],
+    yt: 'puente de gluteos una pierna tecnica mujeres'
+  },
+  m_flexiones: {
+    name: 'Flexiones (rodillas apoyadas o manos en mesa/sillón)', sets: 3, reps: '8-12 reps', rest: 75, work: 0,
+    gif: 'pectorals/incline-push-up.gif',
+    tips: [
+      'Manos apoyadas en mesa, banco o sillón firme para reducir el peso.',
+      'Cuerpo en línea recta firme apretando abdomen y glúteos.',
+      'Bajá el pecho hacia el apoyo con codos a 45 grados.'
+    ],
+    yt: 'flexiones inclinadas en mesa tecnica principiantes'
+  },
+  m_remo: {
+    name: 'Remo inclinado con mochila o banda', sets: 3, reps: '10-12 reps', rest: 75, work: 0,
+    gif: 'upper-back/dumbbell-bent-over-row.gif',
+    tips: [
+      'Torso inclinado a 45 grados con espalda recta y rodillas semiflexionadas.',
+      'Tirá de la mochila o banda llevando los codos hacia atrás pegados a los costados.',
+      'Apretá la espalda alta 1 segundo antes de bajar con control.'
+    ],
+    yt: 'remo inclinado con mochila o banda elastica en casa'
+  },
+  m_plancha: {
+    name: 'Plancha', sets: 3, reps: '20-40 s', rest: 60, work: 30,
+    gif: 'abs/front-plank-with-twist.gif',
+    tips: [
+      'Apoyá antebrazos y puntas de pie formando una línea horizontal perfecta.',
+      'Apretá fuerte el ombligo hacia la columna y los glúteos.',
+      'Respirá continuo sin aguantar el aire.'
+    ],
+    yt: 'plancha abdominal tecnica principiantes'
+  },
+  m_zancadas: {
+    name: 'Zancadas hacia atrás alternadas', sets: 3, reps: '10 por pierna', rest: 75, work: 0,
+    gif: 'glutes/walking-lunge.gif',
+    tips: [
+      'Da un paso amplio hacia atrás flexionando ambas rodillas a 90 grados.',
+      'Hacia atrás es más seguro y fácil para las rodillas que hacia adelante.',
+      'Empujá desde el talón delantero para regresar erguida.'
+    ],
+    yt: 'zancadas hacia atras reverse lunge tecnica'
+  },
+  m_peso_muerto: {
+    name: 'Peso muerto a una pierna (con apoyo en pared)', sets: 3, reps: '8-10 por pierna', rest: 75, work: 0,
+    gif: 'glutes/barbell-single-leg-deadlift.gif',
+    tips: [
+      'Rozá la pared con la mano para no perder el equilibrio.',
+      'Bisagra de cadera: llevá la cola hacia atrás mientras la pierna libre sube detrás.',
+      'Espalda recta en todo momento sintiendo el trabajo en glúteo e isquiosural.'
+    ],
+    yt: 'peso muerto a una pierna con apoyo en pared'
+  },
+  m_fondos: {
+    name: 'Fondos de tríceps en silla firme', sets: 3, reps: '8-12 reps', rest: 60, work: 0,
+    gif: 'triceps/bench-dip-knees-bent.gif',
+    tips: [
+      'Apoyá las manos en el borde de una silla firme apoyada contra la pared.',
+      'Espalda pegada a la silla, flexioná codos hacia atrás hasta 90 grados.',
+      'Empujá con las palmas para extender los brazos.'
+    ],
+    yt: 'fondos de triceps en silla firme tecnica'
+  },
+  m_pike: {
+    name: 'Pike push-up (fuerza de hombros)', sets: 3, reps: '6-10 reps', rest: 75, work: 0,
+    gif: 'glutes/pike-to-cobra-push-up.gif',
+    tips: [
+      'Posición de V invertida con caderas elevadas hacia el techo.',
+      'Flexioná los codos bajando la coronilla hacia el suelo delante de las manos.',
+      'Empujá fuerte con los hombros hacia arriba.'
+    ],
+    yt: 'pike push up tecnica hombros flexiones pica'
+  },
+  m_gemelos: {
+    name: 'Elevación de talones', sets: 3, reps: '15-20 reps', rest: 45, work: 0,
+    gif: 'calves/bodyweight-standing-calf-raise.gif',
+    tips: [
+      'De pie cerca de la pared para mantener el equilibrio.',
+      'Elevá al máximo los talones sobre los metatarsos y sostené 1 segundo arriba.',
+      'Descendé despacio estirando bien las pantorrillas.'
+    ],
+    yt: 'elevacion de talones gemelos de pie'
+  },
+  m_deadbug: {
+    name: 'Dead bug', sets: 3, reps: '8-10 por lado', rest: 60, work: 0,
+    gif: 'abs/dead-bug.gif',
+    tips: [
+      'Espalda lumbar totalmente aplanada contra el suelo.',
+      'Brazos apuntando arriba, piernas a 90 grados.',
+      'Bajá brazo derecho y pierna izquierda lentamente sin despegar la cintura.'
+    ],
+    yt: 'dead bug bicho muerto ejercicio core tecnica'
   }
 };
 
 /* ==========================================================================
-   ESTRUCTURA DE DÍAS Y RUTINAS (Estandarizada)
+   DEFINICIÓN DE PERFILES (Felipe y Mawi)
    ========================================================================== */
-const WARMUP_KEYS = ['soga_suave', 'circulos_brazos', 'rotacion_cadera', 'gato_vaca', 'sentadilla_aire', 'zancadas_dinamicas', 'jumping_jacks'];
-const CORE_KEYS = ['plancha', 'dead_bug', 'bird_dog', 'plancha_lateral', 'puente_gluteos'];
-
-const DAYS = {
-  1: { title: 'Lunes · Tren superior', keys: ['dominadas', 'flexiones', 'fondos_triceps', 'flexiones_diamante', 'colgarse_barra'] },
-  2: { title: 'Martes · Piernas y potencia', keys: ['sentadilla_bulgara', 'sentadilla_salto', 'zancadas_caminando', 'puente_gluteo_1p', 'elevacion_talones'] },
-  3: { title: 'Miércoles · Cardio y agilidad', keys: ['soga_intensa', 'trote_suave', 'escalera_agilidad'] },
-  4: { title: 'Jueves · Cuerpo completo', keys: ['chin_ups', 'flexiones_pausa', 'sentadilla_pausa', 'remo_invertido', 'fondos_banco_d4'] },
-  5: { title: 'Viernes · Específico de fútbol', keys: ['sprints', 'intervalos_3030', 'slalom_drill', 'saltos_banco'] }
+const PROFILES = {
+  felipe: {
+    id: 'felipe',
+    name: 'Felipe',
+    avatar: '⚡',
+    subtitle: 'Rutina de 5 días · Tren superior, piernas, cardio, full body y fútbol',
+    targetDaysPerWeek: 5,
+    days: {
+      1: { title: 'Lunes · Tren superior', keys: ['dominadas', 'flexiones', 'fondos_triceps', 'flexiones_diamante', 'colgarse_barra'] },
+      2: { title: 'Martes · Piernas y potencia', keys: ['sentadilla_bulgara', 'sentadilla_salto', 'zancadas_caminando', 'puente_gluteo_1p', 'elevacion_talones'] },
+      3: { title: 'Miércoles · Cardio y agilidad', keys: ['soga_intensa', 'trote_suave', 'escalera_agilidad'] },
+      4: { title: 'Jueves · Cuerpo completo', keys: ['chin_ups', 'flexiones_pausa', 'sentadilla_pausa', 'remo_invertido', 'fondos_banco_d4'] },
+      5: { title: 'Viernes · Específico de fútbol', keys: ['sprints', 'intervalos_3030', 'slalom_drill', 'saltos_banco'] }
+    },
+    warmup: ['soga_suave', 'circulos_brazos', 'rotacion_cadera', 'gato_vaca', 'sentadilla_aire', 'zancadas_dinamicas', 'jumping_jacks'],
+    core: ['plancha', 'dead_bug', 'bird_dog', 'plancha_lateral', 'puente_gluteos'],
+    coreWarning: '⚠️ <strong>Cuidado de cicatriz:</strong> Progresá suave; frená de inmediato si sentís tirón, ardor, dolor o notas un bulto. Mantené respiración fluida sin aguantar el aire.'
+  },
+  mawi: {
+    id: 'mawi',
+    name: 'Mawi',
+    avatar: '🌸',
+    subtitle: 'Cuerpo completo · 3 días por semana (A/B/A y B/A/B)',
+    targetDaysPerWeek: 3,
+    info: {
+      perfil: '25 años · 162 cm · 44 kg · Objetivo: Ganar masa muscular y energía',
+      frecuencia: '3 días por semana (Esquema A/B/A una semana, B/A/B la siguiente)',
+      calentamiento: '5 min de movilidad articular de cadera y hombros + 1 serie liviana',
+      intensidad: 'RIR 1-2: Terminar cada serie sintiendo que podías hacer 1-2 reps más (cerca pero sin llegar al fallo total)',
+      nutricion: 'Superávit calórico moderado (300-500 kcal/día), 4-5 comidas con proteína (~70g/día, 1.6 g/kg) y 7-9 hs de sueño'
+    },
+    days: {
+      'A': {
+        title: 'Día A · Piernas, empuje y tracción',
+        keys: ['m_sentadilla', 'm_puente', 'm_flexiones', 'm_remo', 'm_plancha']
+      },
+      'B': {
+        title: 'Día B · Cadena posterior, hombros y core',
+        keys: ['m_zancadas', 'm_peso_muerto', 'm_fondos', 'm_pike', 'm_gemelos', 'm_deadbug']
+      }
+    },
+    warmup: ['circulos_brazos', 'rotacion_cadera', 'gato_vaca'],
+    core: []
+  }
 };
+
+let activeProfile = localStorage.getItem('rutina-prof-v1') || 'felipe';
+if (!PROFILES[activeProfile]) activeProfile = 'felipe';
 
 const DN = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
@@ -1204,10 +1441,20 @@ function getTodayKey() {
 
 const initialDate = new Date();
 const initialDow = initialDate.getDay();
-let cur = (initialDow >= 1 && initialDow <= 5) ? initialDow : 1;
+let curFelipe = (initialDow >= 1 && initialDow <= 5) ? initialDow : 1;
+let curMawi = 'A';
+
+function getCurDay() {
+  return activeProfile === 'felipe' ? curFelipe : curMawi;
+}
+
+function setCurDay(val) {
+  if (activeProfile === 'felipe') curFelipe = val;
+  else curMawi = val;
+}
 
 /* ==========================================================================
-   ESTADO Y PERSISTENCIA (localStorage)
+   ESTADO Y PERSISTENCIA (localStorage con separación de perfiles)
    ========================================================================== */
 let S = {};
 try { S = JSON.parse(localStorage.getItem('rutina-v1') || '{}'); } catch (e) {}
@@ -1218,22 +1465,32 @@ function save() {
 
 function getDone(day, key) {
   const dk = getTodayKey();
-  return ((S[dk] || {})[`${day}_${key}`]) || 0;
+  const dayData = S[dk] || {};
+  // Busca con prefijo de perfil y mantiene compatibilidad hacia atrás para Felipe
+  if (dayData[`${activeProfile}_${day}_${key}`] !== undefined) {
+    return dayData[`${activeProfile}_${day}_${key}`];
+  }
+  if (activeProfile === 'felipe' && dayData[`${day}_${key}`] !== undefined) {
+    return dayData[`${day}_${key}`];
+  }
+  return 0;
 }
 
 function putDone(day, key, val) {
   const dk = getTodayKey();
   S[dk] = S[dk] || {};
-  S[dk][`${day}_${key}`] = val;
+  S[dk][`${activeProfile}_${day}_${key}`] = val;
   save();
   updateStreak();
 }
 
 function allExercisesOfDay() {
+  const prof = PROFILES[activeProfile];
+  const cur = getCurDay();
   const list = [];
-  WARMUP_KEYS.forEach(k => list.push({ cat: 'w', key: k, data: EX_DB[k] }));
-  (DAYS[cur].keys).forEach(k => list.push({ cat: 'e', key: k, data: EX_DB[k] }));
-  CORE_KEYS.forEach(k => list.push({ cat: 'c', key: k, data: EX_DB[k] }));
+  prof.warmup.forEach(k => list.push({ cat: 'w', key: k, data: EX_DB[k] }));
+  (prof.days[cur].keys).forEach(k => list.push({ cat: 'e', key: k, data: EX_DB[k] }));
+  prof.core.forEach(k => list.push({ cat: 'c', key: k, data: EX_DB[k] }));
   return list;
 }
 
@@ -1393,11 +1650,9 @@ document.getElementById('b15').onclick = () => {
 document.getElementById('bpause').onclick = () => {
   if (!T) return;
   if (T.paused) {
-    // Reanudar
     T.paused = false;
     T.end = Date.now() + T.remaining * 1000;
   } else {
-    // Pausar
     T.paused = true;
     T.remaining = Math.max(0, Math.ceil((T.end - Date.now()) / 1000));
   }
@@ -1437,6 +1692,8 @@ function dotsHTML(day, cat, key, ex) {
 }
 
 function renderHeaderProgress() {
+  const prof = PROFILES[activeProfile];
+  const cur = getCurDay();
   let tot = 0;
   let done = 0;
   const list = allExercisesOfDay();
@@ -1451,7 +1708,7 @@ function renderHeaderProgress() {
   document.getElementById('ph').innerHTML = `
     <div class="prog-box">
       <div class="prog-header">
-        <span class="prog-title">${DAYS[cur].title}</span>
+        <span class="prog-title">${prof.days[cur].title}</span>
         <span class="prog-stats">${done} de ${tot} series (${pct}%)</span>
       </div>
       <div class="prog"><i style="width:${pct}%"></i></div>
@@ -1462,6 +1719,7 @@ function renderHeaderProgress() {
 
 function updateDotsOnly() {
   renderHeaderProgress();
+  const cur = getCurDay();
   allExercisesOfDay().forEach(item => {
     const el = document.getElementById(`dots-${item.cat}-${item.key}`);
     if (el) el.innerHTML = dotsHTML(cur, item.cat, item.key, item.data);
@@ -1479,7 +1737,6 @@ function tapDot(day, cat, key, i) {
   const c = getDone(day, `${cat}_${key}`);
   const ex = EX_DB[key];
 
-  // Deshacer si se toca una ya completada
   if (i < c) {
     putDone(day, `${cat}_${key}`, i);
     haptic('tick');
@@ -1498,7 +1755,6 @@ function tapDot(day, cat, key, i) {
     haptic('tick');
     updateDotsOnly();
 
-    // Iniciar descanso si quedan series y hay tiempo de descanso configurado
     if (nextVal < sets && rest > 0) {
       startTimer(rest, `Descanso · ${ex.name} (serie ${nextVal + 1} de ${sets})`, 'rest', null);
     }
@@ -1516,6 +1772,7 @@ function tapDot(day, cat, key, i) {
    TARJETAS Y RENDERIZADO
    ========================================================================== */
 function cardHTML(cat, key, ex) {
+  const cur = getCurDay();
   const c = getDone(cur, `${cat}_${key}`);
   const isDone = c >= ex.sets;
   const gifUrl = CDN_BASE + ex.gif;
@@ -1549,6 +1806,7 @@ function cardHTML(cat, key, ex) {
 function updateStreak() {
   const today = new Date();
   const todayDow = today.getDay();
+  const prof = PROFILES[activeProfile];
   let daysActiveThisWeek = 0;
   const startOfWeek = new Date(today);
   const currentDayOffset = (todayDow === 0) ? 7 : todayDow; // 1 = Lun, 7 = Dom
@@ -1560,7 +1818,10 @@ function updateStreak() {
     dayDate.setDate(startOfWeek.getDate() + (d - 1));
     const kDay = `${dayDate.getFullYear()}-${dayDate.getMonth() + 1}-${dayDate.getDate()}`;
     const dayData = S[kDay] || {};
-    const hasActivity = Object.keys(dayData).some(k => dayData[k] > 0);
+
+    const hasActivity = Object.keys(dayData).some(k => {
+      return (k.startsWith(`${activeProfile}_`) || (activeProfile === 'felipe' && !k.includes('_'))) && dayData[k] > 0;
+    });
     if (hasActivity) daysActiveThisWeek++;
 
     const isToday = (d === todayDow);
@@ -1574,39 +1835,79 @@ function updateStreak() {
     `;
   }
   document.getElementById('weekBar').innerHTML = weekHTML;
-  document.getElementById('streakBadge').textContent = `🔥 ${daysActiveThisWeek} de 5 días`;
+  document.getElementById('streakBadge').textContent = `🔥 ${daysActiveThisWeek} de ${prof.targetDaysPerWeek} días`;
+}
+
+function switchProfile(newProfile) {
+  activeProfile = newProfile;
+  localStorage.setItem('rutina-prof-v1', activeProfile);
+  document.body.setAttribute('data-active-p', activeProfile);
+
+  document.querySelectorAll('.profile-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.p === activeProfile);
+  });
+
+  render();
 }
 
 function render() {
   const today = new Date();
   const todayDow = today.getDay();
+  const prof = PROFILES[activeProfile];
+  const cur = getCurDay();
 
-  // Pestañas
-  let tabs = '';
-  for (let d = 1; d <= 5; d++) {
-    tabs += `<button class="tab${d === cur ? ' on' : ''}" data-t="${d}">${DN[d]}</button>`;
+  document.body.setAttribute('data-active-p', activeProfile);
+
+  // Subtítulo con fecha
+  document.getElementById('dt').textContent = `${prof.subtitle} · ${DN[todayDow]} ${today.getDate()}/${today.getMonth() + 1}`;
+
+  // Tarjeta de info (Mawi)
+  const infoBox = document.getElementById('profileInfoBox');
+  if (prof.info) {
+    infoBox.innerHTML = `
+      <details class="info-card">
+        <summary>🌸 Pautas y Objetivos de Mawi</summary>
+        <ul>
+          <li><strong>Perfil:</strong> ${prof.info.perfil}</li>
+          <li><strong>Frecuencia:</strong> ${prof.info.frecuencia}</li>
+          <li><strong>Intensidad:</strong> ${prof.info.intensidad}</li>
+          <li><strong>Calentamiento:</strong> ${prof.info.calentamiento}</li>
+          <li><strong>Nutrición:</strong> ${prof.info.nutricion}</li>
+        </ul>
+      </details>
+    `;
+  } else {
+    infoBox.innerHTML = '';
   }
-  document.getElementById('tabs').innerHTML = tabs;
 
-  // Fecha
-  document.getElementById('dt').textContent = `${DN[todayDow]} ${today.getDate()}/${today.getMonth() + 1}` +
-    (todayDow === 0 || todayDow === 6 ? ' · Fin de semana: descanso activo' : '');
+  // Pestañas de días
+  let tabs = '';
+  Object.keys(prof.days).forEach(dayKey => {
+    const isSelected = String(dayKey) === String(cur);
+    const label = activeProfile === 'felipe' ? DN[dayKey] : `Día ${dayKey}`;
+    tabs += `<button class="tab${isSelected ? ' on' : ''}" data-t="${dayKey}">${label}</button>`;
+  });
+  document.getElementById('tabs').innerHTML = tabs;
 
   // Contenido de ejercicios
   let h = '';
 
   // Entrada en calor
-  h += '<h2>🔥 Entrada en calor (~8 min)</h2>';
-  WARMUP_KEYS.forEach(k => { h += cardHTML('w', k, EX_DB[k]); });
+  h += '<h2>🔥 Entrada en calor (~5-8 min)</h2>';
+  prof.warmup.forEach(k => { h += cardHTML('w', k, EX_DB[k]); });
 
   // Bloque principal
-  h += `<h2>💪 Bloque principal · ${DAYS[cur].title}</h2>`;
-  DAYS[cur].keys.forEach(k => { h += cardHTML('e', k, EX_DB[k]); });
+  h += `<h2>💪 ${prof.days[cur].title}</h2>`;
+  prof.days[cur].keys.forEach(k => { h += cardHTML('e', k, EX_DB[k]); });
 
-  // Core
-  h += '<h2>🛡️ Core y Estabilidad</h2>';
-  h += '<div class="note-warn">⚠️ <strong>Cuidado de cicatriz:</strong> Progresá suave; frená de inmediato si sentís tirón, ardor, dolor o notas un bulto. Mantené respiración fluida sin aguantar el aire.</div>';
-  CORE_KEYS.forEach(k => { h += cardHTML('c', k, EX_DB[k]); });
+  // Core (si aplica)
+  if (prof.core.length > 0) {
+    h += '<h2>🛡️ Core y Estabilidad</h2>';
+    if (prof.coreWarning) {
+      h += `<div class="note-warn">${prof.coreWarning}</div>`;
+    }
+    prof.core.forEach(k => { h += cardHTML('c', k, EX_DB[k]); });
+  }
 
   // Reiniciar día
   h += '<button class="rst" id="rst">Reiniciar progreso de este día</button>';
@@ -1681,6 +1982,13 @@ window.addEventListener('keydown', (e) => {
    ========================================================================== */
 let rsT = null;
 document.addEventListener('click', (ev) => {
+  // Selector de perfil
+  const profBtn = ev.target.closest('.profile-btn');
+  if (profBtn && profBtn.dataset.p) {
+    switchProfile(profBtn.dataset.p);
+    return;
+  }
+
   // Modal opener
   const openTarget = ev.target.closest('[data-open-key]');
   if (openTarget) {
@@ -1691,7 +1999,7 @@ document.addEventListener('click', (ev) => {
   // Cambio de día (tab)
   const tabBtn = ev.target.closest('button[data-t]');
   if (tabBtn) {
-    cur = +tabBtn.dataset.t;
+    setCurDay(tabBtn.dataset.t);
     render();
     return;
   }
@@ -1699,7 +2007,7 @@ document.addEventListener('click', (ev) => {
   // Toque de punto de serie (dot)
   const dotBtn = ev.target.closest('button.dot');
   if (dotBtn && dotBtn.dataset.k !== undefined && dotBtn.dataset.i !== undefined) {
-    const day = +dotBtn.dataset.d;
+    const day = dotBtn.dataset.d;
     const cat = dotBtn.dataset.cat;
     const key = dotBtn.dataset.k;
     const i = +dotBtn.dataset.i;
@@ -1711,12 +2019,15 @@ document.addEventListener('click', (ev) => {
   const rstBtn = ev.target.closest('#rst');
   if (rstBtn) {
     const dk = getTodayKey();
+    const cur = getCurDay();
     if (rsT) {
       clearTimeout(rsT);
       rsT = null;
       if (S[dk]) {
         Object.keys(S[dk]).forEach(k => {
-          if (k.startsWith(`${cur}_`)) delete S[dk][k];
+          if (k.startsWith(`${activeProfile}_${cur}_`) || (activeProfile === 'felipe' && k.startsWith(`${cur}_`))) {
+            delete S[dk][k];
+          }
         });
       }
       save();
@@ -1774,14 +2085,6 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').then(reg => {
       console.log('ServiceWorker registrado:', reg.scope);
-      reg.addEventListener('updatefound', () => {
-        const newWorker = reg.installing;
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            console.log('Nueva versión disponible. Actualizando caché...');
-          }
-        });
-      });
     }).catch(err => {
       console.warn('Error al registrar ServiceWorker:', err);
     });

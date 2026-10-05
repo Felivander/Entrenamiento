@@ -30,22 +30,20 @@
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-@media (prefers-color-scheme: light) {
-  :root[data-theme="light"] {
-    --bg: #f8fafc;
-    --bg-soft: #f1f5f9;
-    --card: #ffffff;
-    --card-hover: #f8fafc;
-    --tx: #0f172a;
-    --mu: #64748b;
-    --ac: #0284c7;
-    --ac-glow: rgba(2, 132, 199, 0.18);
-    --ok: #059669;
-    --ok-glow: rgba(5, 150, 105, 0.18);
-    --warn: #d97706;
-    --bd: #e2e8f0;
-    --bd-light: #cbd5e1;
-  }
+:root[data-theme="light"] {
+  --bg: #f8fafc;
+  --bg-soft: #f1f5f9;
+  --card: #ffffff;
+  --card-hover: #f8fafc;
+  --tx: #0f172a;
+  --mu: #64748b;
+  --ac: #0284c7;
+  --ac-glow: rgba(2, 132, 199, 0.18);
+  --ok: #059669;
+  --ok-glow: rgba(5, 150, 105, 0.18);
+  --warn: #d97706;
+  --bd: #e2e8f0;
+  --bd-light: #cbd5e1;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body {
@@ -53,18 +51,19 @@ body {
   background: var(--bg);
   color: var(--tx);
   font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-  padding: 16px 14px 170px;
+  padding: 16px 14px 175px;
   max-width: 580px;
   user-select: none;
   -webkit-user-select: none;
+  transition: background-color 0.2s, color 0.2s;
 }
 
-/* Header */
+/* Header & Controls */
 .top-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 h1 {
   font-size: 24px;
@@ -75,13 +74,37 @@ h1 {
   align-items: center;
   gap: 8px;
 }
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-icon {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  color: var(--tx);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-icon:active { transform: scale(0.92); }
+.btn-icon.off {
+  opacity: 0.5;
+  color: var(--mu);
+}
 .streak-badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   background: var(--card);
   border: 1px solid var(--bd);
-  padding: 5px 10px;
+  padding: 6px 11px;
   border-radius: 20px;
   font-size: 13px;
   font-weight: 700;
@@ -114,16 +137,17 @@ h1 {
   font-weight: 600;
 }
 .week-dot {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   border: 1.5px solid var(--bd);
   background: var(--card);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--mu);
+  transition: all 0.2s ease;
 }
 .week-dot.active-day {
   border-color: var(--ac);
@@ -134,6 +158,7 @@ h1 {
   border-color: var(--ok);
   color: #fff;
   font-weight: 800;
+  box-shadow: 0 2px 6px var(--ok-glow);
 }
 
 /* Tabs */
@@ -222,25 +247,20 @@ h2 {
   color: var(--mu);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin: 20px 2px 8px;
+  margin: 22px 2px 8px;
   display: flex;
   align-items: center;
   gap: 6px;
 }
-.note {
-  font-size: 13px;
-  color: var(--mu);
-  margin: 6px 2px 12px;
-  line-height: 1.4;
-}
 .note-warn {
   background: rgba(245, 158, 11, 0.12);
   border-left: 3px solid var(--warn);
-  padding: 9px 12px;
+  padding: 10px 12px;
   border-radius: 0 10px 10px 0;
   color: #fde68a;
   font-size: 13px;
   margin: 8px 0 14px;
+  line-height: 1.45;
 }
 
 /* Cards */
@@ -256,8 +276,11 @@ h2 {
   border-color: var(--bd-light);
 }
 .card.all-done {
-  border-color: rgba(16, 185, 129, 0.4);
+  border-color: rgba(16, 185, 129, 0.45);
   background: rgba(22, 34, 46, 0.85);
+}
+:root[data-theme="light"] .card.all-done {
+  background: #f0fdf4;
 }
 .row {
   display: flex;
@@ -355,7 +378,7 @@ h2 {
   font-size: 12px;
   font-weight: 600;
   padding: 0;
-  margin-top: 5px;
+  margin-top: 6px;
   cursor: pointer;
 }
 
@@ -415,7 +438,7 @@ h2 {
   bottom: 0;
   background: var(--card);
   border-top: 1px solid var(--bd);
-  padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
   display: none;
   box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
   z-index: 100;
@@ -454,15 +477,16 @@ h2 {
 }
 #bmode.work { background: rgba(56, 189, 248, 0.2); color: var(--ac); }
 #bmode.rest { background: rgba(16, 185, 129, 0.2); color: var(--ok); }
+#bmode.paused { background: rgba(245, 158, 11, 0.2); color: var(--warn); }
 .timer-mid {
   display: flex;
   align-items: baseline;
   justify-content: center;
   gap: 12px;
-  margin: 4px 0 8px;
+  margin: 2px 0 6px;
 }
 #bt {
-  font-size: 52px;
+  font-size: 48px;
   font-weight: 800;
   text-align: center;
   font-variant-numeric: tabular-nums;
@@ -470,12 +494,13 @@ h2 {
 }
 #bt.work { color: var(--ac); }
 #bt.rest { color: var(--ok); }
+#bt.paused { opacity: 0.6; }
 .timer-prog {
   height: 5px;
   background: var(--bg-soft);
   border-radius: 3px;
   overflow: hidden;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .timer-prog i {
   display: block;
@@ -490,18 +515,19 @@ h2 {
 }
 .br button {
   flex: 1;
-  padding: 12px;
+  padding: 10px;
   border-radius: 12px;
   border: 1px solid var(--bd);
   background: var(--bg-soft);
   color: var(--tx);
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 .br button:active { transform: scale(0.96); background: var(--bd); }
 .br #b15 { color: var(--ac); }
+.br #bpause { color: var(--warn); }
 .br #bsk { color: var(--ok); }
 .br #bx { color: var(--mu); }
 
@@ -509,7 +535,7 @@ h2 {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.82);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   display: none;
@@ -541,7 +567,7 @@ h2 {
   margin-bottom: 14px;
 }
 .modal-title {
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 800;
   margin: 0;
   color: var(--tx);
@@ -569,18 +595,34 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .modal-gif-box img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
+.modal-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.modal-nav button {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--bd);
+  background: var(--bg-soft);
+  color: var(--tx);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
 .modal-tips {
   margin-bottom: 16px;
 }
 .modal-tips h3 {
-  font-size: 13px;
+  font-size: 12.5px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--mu);
@@ -589,7 +631,7 @@ h2 {
 .modal-tips ul {
   margin: 0;
   padding-left: 20px;
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--tx);
   line-height: 1.5;
 }
@@ -611,7 +653,7 @@ h2 {
 }
 .modal-yt-btn:hover { opacity: 0.9; }
 
-/* Reset button & footer */
+/* Reset button & footer tools */
 .rst {
   width: 100%;
   margin-top: 18px;
@@ -626,6 +668,25 @@ h2 {
   transition: all 0.15s ease;
 }
 .rst:hover { color: var(--tx); border-color: var(--bd-light); }
+
+.backup-tools {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+.btn-text {
+  background: transparent;
+  border: none;
+  color: var(--mu);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+.btn-text:hover { color: var(--ac); background: var(--bg-soft); }
+
 .pwa-install-banner {
   display: none;
   background: var(--bg-soft);
@@ -653,7 +714,12 @@ h2 {
 
 <div class="top-nav">
   <h1>⚡ Rutina</h1>
-  <div class="streak-badge" id="streakBadge">🔥 0 días</div>
+  <div class="header-actions">
+    <button class="btn-icon" id="btnSound" title="Alternar Sonido">🔊</button>
+    <button class="btn-icon" id="btnHaptic" title="Alternar Vibración">📳</button>
+    <button class="btn-icon" id="btnTheme" title="Alternar Tema Oscuro/Claro">🌙</button>
+    <div class="streak-badge" id="streakBadge">🔥 0 días</div>
+  </div>
 </div>
 <div class="sub" id="dt"></div>
 
@@ -677,6 +743,13 @@ h2 {
 <!-- Main workout container -->
 <div id="main"></div>
 
+<!-- Backup and reset tools -->
+<div class="backup-tools">
+  <button class="btn-text" id="btnExport">📥 Respaldar progreso</button>
+  <button class="btn-text" id="btnImport">📤 Restaurar copia</button>
+  <input type="file" id="importInput" accept=".json" style="display:none">
+</div>
+
 <!-- Floating bottom timer -->
 <div id="bar">
   <div class="in">
@@ -690,6 +763,7 @@ h2 {
     <div class="timer-prog"><i id="timerProgBar" style="width:100%"></i></div>
     <div class="br">
       <button id="b15">+15 s</button>
+      <button id="bpause">⏸ Pausa</button>
       <button id="bsk">Saltar</button>
       <button id="bx">Cancelar</button>
     </div>
@@ -706,6 +780,10 @@ h2 {
     <div class="modal-gif-box">
       <img id="mImg" src="" alt="Demostración">
     </div>
+    <div class="modal-nav">
+      <button id="mPrev">← Anterior</button>
+      <button id="mNext">Siguiente →</button>
+    </div>
     <div class="modal-tips">
       <h3>Consejos de Técnica y Seguridad</h3>
       <ul id="mTips"></ul>
@@ -717,6 +795,60 @@ h2 {
 </div>
 
 <script>
+/* ==========================================================================
+   CONFIGURACIÓN Y PREFERENCIAS (Sonido, Vibración, Tema)
+   ========================================================================== */
+const CFG = {
+  sound: true,
+  haptic: true,
+  theme: 'dark'
+};
+try {
+  const savedCfg = JSON.parse(localStorage.getItem('rutina-cfg-v1') || '{}');
+  Object.assign(CFG, savedCfg);
+} catch (e) {}
+
+function saveCfg() {
+  try { localStorage.setItem('rutina-cfg-v1', JSON.stringify(CFG)); } catch (e) {}
+}
+
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', CFG.theme);
+  const themeBtn = document.getElementById('btnTheme');
+  if (themeBtn) themeBtn.textContent = CFG.theme === 'light' ? '☀️' : '🌙';
+}
+applyTheme();
+
+function applyToggles() {
+  const sBtn = document.getElementById('btnSound');
+  if (sBtn) {
+    sBtn.textContent = CFG.sound ? '🔊' : '🔇';
+    sBtn.className = 'btn-icon' + (CFG.sound ? '' : ' off');
+  }
+  const hBtn = document.getElementById('btnHaptic');
+  if (hBtn) {
+    hBtn.textContent = CFG.haptic ? '📳' : '📴';
+    hBtn.className = 'btn-icon' + (CFG.haptic ? '' : ' off');
+  }
+}
+
+document.getElementById('btnSound').onclick = () => {
+  CFG.sound = !CFG.sound;
+  saveCfg();
+  applyToggles();
+};
+document.getElementById('btnHaptic').onclick = () => {
+  CFG.haptic = !CFG.haptic;
+  saveCfg();
+  applyToggles();
+};
+document.getElementById('btnTheme').onclick = () => {
+  CFG.theme = CFG.theme === 'dark' ? 'light' : 'dark';
+  saveCfg();
+  applyTheme();
+};
+applyToggles();
+
 /* ==========================================================================
    CATÁLOGO DE EJERCICIOS (jsDelivr CDN Ultra-Rápido)
    ========================================================================== */
@@ -1050,24 +1182,29 @@ const EX_DB = {
 };
 
 /* ==========================================================================
-   ESTRUCTURA DE DÍAS Y RUTINAS
+   ESTRUCTURA DE DÍAS Y RUTINAS (Estandarizada)
    ========================================================================== */
 const WARMUP_KEYS = ['soga_suave', 'circulos_brazos', 'rotacion_cadera', 'gato_vaca', 'sentadilla_aire', 'zancadas_dinamicas', 'jumping_jacks'];
 const CORE_KEYS = ['plancha', 'dead_bug', 'bird_dog', 'plancha_lateral', 'puente_gluteos'];
 
 const DAYS = {
   1: { title: 'Lunes · Tren superior', keys: ['dominadas', 'flexiones', 'fondos_triceps', 'flexiones_diamante', 'colgarse_barra'] },
-  2: { title: 'Piernas y potencia', keys: ['sentadilla_bulgara', 'sentadilla_salto', 'zancadas_caminando', 'puente_gluteo_1p', 'elevacion_talones'] },
-  3: { title: 'Cardio y agilidad', keys: ['soga_intensa', 'trote_suave', 'escalera_agilidad'] },
-  4: { title: 'Cuerpo completo', keys: ['chin_ups', 'flexiones_pausa', 'sentadilla_pausa', 'remo_invertido', 'fondos_banco_d4'] },
-  5: { title: 'Específico de fútbol', keys: ['sprints', 'intervalos_3030', 'slalom_drill', 'saltos_banco'] }
+  2: { title: 'Martes · Piernas y potencia', keys: ['sentadilla_bulgara', 'sentadilla_salto', 'zancadas_caminando', 'puente_gluteo_1p', 'elevacion_talones'] },
+  3: { title: 'Miércoles · Cardio y agilidad', keys: ['soga_intensa', 'trote_suave', 'escalera_agilidad'] },
+  4: { title: 'Jueves · Cuerpo completo', keys: ['chin_ups', 'flexiones_pausa', 'sentadilla_pausa', 'remo_invertido', 'fondos_banco_d4'] },
+  5: { title: 'Viernes · Específico de fútbol', keys: ['sprints', 'intervalos_3030', 'slalom_drill', 'saltos_banco'] }
 };
 
 const DN = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-const now = new Date();
-const dow = now.getDay();
-let cur = (dow >= 1 && dow <= 5) ? dow : 1;
-const dk = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+
+function getTodayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+
+const initialDate = new Date();
+const initialDow = initialDate.getDay();
+let cur = (initialDow >= 1 && initialDow <= 5) ? initialDow : 1;
 
 /* ==========================================================================
    ESTADO Y PERSISTENCIA (localStorage)
@@ -1080,10 +1217,12 @@ function save() {
 }
 
 function getDone(day, key) {
+  const dk = getTodayKey();
   return ((S[dk] || {})[`${day}_${key}`]) || 0;
 }
 
 function putDone(day, key, val) {
+  const dk = getTodayKey();
   S[dk] = S[dk] || {};
   S[dk][`${day}_${key}`] = val;
   save();
@@ -1120,6 +1259,7 @@ function unlockSensory() {
 }
 
 function haptic(type) {
+  if (!CFG.haptic) return;
   try {
     if (!('vibrate' in navigator)) return;
     if (type === 'tick') navigator.vibrate(35);
@@ -1129,6 +1269,7 @@ function haptic(type) {
 }
 
 function beep(freq, dur) {
+  if (!CFG.sound) return;
   if (!AC) return;
   try {
     const osc = AC.createOscillator();
@@ -1151,7 +1292,7 @@ function fmt(s) {
 }
 
 /* ==========================================================================
-   TEMPORIZADOR FLOTANTE (Work / Rest)
+   TEMPORIZADOR FLOTANTE (Work / Rest con Pausa / Reanudar)
    ========================================================================== */
 let T = null;
 let iv = null;
@@ -1161,6 +1302,8 @@ function startTimer(totalSec, label, kind, onEnd) {
   T = {
     total: totalSec,
     end: Date.now() + totalSec * 1000,
+    remaining: totalSec,
+    paused: false,
     label: label,
     kind: kind,
     onEnd: onEnd,
@@ -1178,7 +1321,24 @@ function tick() {
     bar.style.display = 'none';
     return;
   }
+
+  const bpause = document.getElementById('bpause');
+  if (T.paused) {
+    bar.style.display = 'block';
+    bpause.textContent = '▶ Reanudar';
+    const bmode = document.getElementById('bmode');
+    bmode.textContent = 'PAUSADO';
+    bmode.className = 'paused';
+    const bt = document.getElementById('bt');
+    bt.textContent = fmt(T.remaining);
+    bt.className = 'paused';
+    return;
+  }
+
+  bpause.textContent = '⏸ Pausa';
   const left = Math.ceil((T.end - Date.now()) / 1000);
+  T.remaining = Math.max(0, left);
+
   if (left <= 0) {
     const f = T.onEnd;
     const sk = T.skip;
@@ -1216,9 +1376,49 @@ function tick() {
   if (progBar) progBar.style.width = `${pct}%`;
 }
 
-document.getElementById('b15').onclick = () => { if (T) { T.end += 15000; T.total += 15; tick(); haptic('tick'); } };
-document.getElementById('bsk').onclick = () => { if (T) { T.skip = true; T.end = 0; tick(); } };
-document.getElementById('bx').onclick = () => { T = null; clearInterval(iv); tick(); };
+document.getElementById('b15').onclick = () => {
+  if (T) {
+    if (T.paused) {
+      T.remaining += 15;
+      T.total += 15;
+    } else {
+      T.end += 15000;
+      T.total += 15;
+    }
+    tick();
+    haptic('tick');
+  }
+};
+
+document.getElementById('bpause').onclick = () => {
+  if (!T) return;
+  if (T.paused) {
+    // Reanudar
+    T.paused = false;
+    T.end = Date.now() + T.remaining * 1000;
+  } else {
+    // Pausar
+    T.paused = true;
+    T.remaining = Math.max(0, Math.ceil((T.end - Date.now()) / 1000));
+  }
+  tick();
+  haptic('tick');
+};
+
+document.getElementById('bsk').onclick = () => {
+  if (T) {
+    T.paused = false;
+    T.skip = true;
+    T.end = 0;
+    tick();
+  }
+};
+
+document.getElementById('bx').onclick = () => {
+  T = null;
+  clearInterval(iv);
+  tick();
+};
 
 /* ==========================================================================
    SERIES Y PUNTOS DE SEGUIMIENTO
@@ -1347,11 +1547,12 @@ function cardHTML(cat, key, ex) {
 }
 
 function updateStreak() {
-  // Racha semanal: contar cuántos días de la semana actual tienen al menos 1 serie hecha
+  const today = new Date();
+  const todayDow = today.getDay();
   let daysActiveThisWeek = 0;
-  const startOfWeek = new Date(now);
-  const currentDay = (dow === 0) ? 7 : dow; // 1 = Lun, 7 = Dom
-  startOfWeek.setDate(now.getDate() - currentDay + 1);
+  const startOfWeek = new Date(today);
+  const currentDayOffset = (todayDow === 0) ? 7 : todayDow; // 1 = Lun, 7 = Dom
+  startOfWeek.setDate(today.getDate() - currentDayOffset + 1);
 
   let weekHTML = '';
   for (let d = 1; d <= 5; d++) {
@@ -1362,7 +1563,7 @@ function updateStreak() {
     const hasActivity = Object.keys(dayData).some(k => dayData[k] > 0);
     if (hasActivity) daysActiveThisWeek++;
 
-    const isToday = (d === dow);
+    const isToday = (d === todayDow);
     weekHTML += `
       <div class="week-day">
         <div class="week-dot${hasActivity ? ' done' : ''}${isToday ? ' active-day' : ''}">
@@ -1377,6 +1578,9 @@ function updateStreak() {
 }
 
 function render() {
+  const today = new Date();
+  const todayDow = today.getDay();
+
   // Pestañas
   let tabs = '';
   for (let d = 1; d <= 5; d++) {
@@ -1385,8 +1589,8 @@ function render() {
   document.getElementById('tabs').innerHTML = tabs;
 
   // Fecha
-  document.getElementById('dt').textContent = `${DN[dow]} ${now.getDate()}/${now.getMonth() + 1}` +
-    (dow === 0 || dow === 6 ? ' · Fin de semana: descanso activo' : '');
+  document.getElementById('dt').textContent = `${DN[todayDow]} ${today.getDate()}/${today.getMonth() + 1}` +
+    (todayDow === 0 || todayDow === 6 ? ' · Fin de semana: descanso activo' : '');
 
   // Contenido de ejercicios
   let h = '';
@@ -1414,11 +1618,18 @@ function render() {
 }
 
 /* ==========================================================================
-   MODAL DE TÉCNICA
+   MODAL DE TÉCNICA CON NAVEGACIÓN ANTERIOR / SIGUIENTE
    ========================================================================== */
+let modalCurrentKey = null;
+
+function getModalExerciseKeys() {
+  return allExercisesOfDay().map(item => item.key);
+}
+
 function openModal(key) {
   const ex = EX_DB[key];
   if (!ex) return;
+  modalCurrentKey = key;
   document.getElementById('mTitle').textContent = ex.name;
   document.getElementById('mImg').src = CDN_BASE + ex.gif;
 
@@ -1436,9 +1647,21 @@ function openModal(key) {
   document.getElementById('modalBackdrop').style.display = 'flex';
 }
 
+function navigateModal(delta) {
+  const keys = getModalExerciseKeys();
+  const idx = keys.indexOf(modalCurrentKey);
+  if (idx === -1) return;
+  const nextIdx = (idx + delta + keys.length) % keys.length;
+  openModal(keys[nextIdx]);
+}
+
+document.getElementById('mPrev').onclick = () => navigateModal(-1);
+document.getElementById('mNext').onclick = () => navigateModal(1);
+
 function closeModal() {
   document.getElementById('modalBackdrop').style.display = 'none';
   document.getElementById('mImg').src = '';
+  modalCurrentKey = null;
 }
 
 document.getElementById('mClose').onclick = closeModal;
@@ -1447,6 +1670,10 @@ document.getElementById('modalBackdrop').onclick = (e) => {
 };
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeModal();
+  if (document.getElementById('modalBackdrop').style.display === 'flex') {
+    if (e.key === 'ArrowLeft') navigateModal(-1);
+    if (e.key === 'ArrowRight') navigateModal(1);
+  }
 });
 
 /* ==========================================================================
@@ -1483,6 +1710,7 @@ document.addEventListener('click', (ev) => {
   // Botón de reiniciar día
   const rstBtn = ev.target.closest('#rst');
   if (rstBtn) {
+    const dk = getTodayKey();
     if (rsT) {
       clearTimeout(rsT);
       rsT = null;
@@ -1505,12 +1733,55 @@ document.addEventListener('click', (ev) => {
 });
 
 /* ==========================================================================
+   RESPALDO Y RESTAURACIÓN (Export / Import JSON)
+   ========================================================================== */
+document.getElementById('btnExport').onclick = () => {
+  const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(S, null, 2));
+  const dlAnchor = document.createElement('a');
+  dlAnchor.setAttribute('href', dataStr);
+  dlAnchor.setAttribute('download', `rutina-backup-${getTodayKey()}.json`);
+  dlAnchor.click();
+};
+
+document.getElementById('btnImport').onclick = () => {
+  document.getElementById('importInput').click();
+};
+
+document.getElementById('importInput').onchange = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (evt) => {
+    try {
+      const imported = JSON.parse(evt.target.result);
+      if (typeof imported === 'object') {
+        Object.assign(S, imported);
+        save();
+        render();
+        alert('¡Historial restaurado con éxito!');
+      }
+    } catch (err) {
+      alert('Error: el archivo no es un respaldo válido de Rutina.');
+    }
+  };
+  reader.readAsText(file);
+};
+
+/* ==========================================================================
    SERVICE WORKER Y PWA PROMPT
    ========================================================================== */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').then(reg => {
-      console.log('ServiceWorker registrado con éxito:', reg.scope);
+      console.log('ServiceWorker registrado:', reg.scope);
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            console.log('Nueva versión disponible. Actualizando caché...');
+          }
+        });
+      });
     }).catch(err => {
       console.warn('Error al registrar ServiceWorker:', err);
     });

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rutina-pwa-v1';
+const CACHE_NAME = 'rutina-pwa-v2';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -32,24 +32,24 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // For app shell and local assets: Cache first, then network
+  // App shell and local files: Cache first, then network fallback
   if (url.origin === location.origin) {
     event.respondWith(
       caches.match(req).then((cached) => {
-        return cached || fetch(req).then((res) => {
+        const fetchPromise = fetch(req).then((res) => {
           if (res && res.status === 200 && req.method === 'GET') {
             const clone = res.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
           }
           return res;
-        });
+        }).catch(() => cached);
+        return cached || fetchPromise;
       })
     );
     return;
   }
 
-  // For external assets like exercise GIFs (CDN jsDelivr / static):
-  // Stale-while-revalidate / cache on visit
+  // External exercise GIFs (CDN jsDelivr): Cache on demand
   if (req.method === 'GET' && (url.hostname.includes('jsdelivr.net') || url.hostname.includes('exercisedb.dev'))) {
     event.respondWith(
       caches.open(CACHE_NAME).then((cache) => {

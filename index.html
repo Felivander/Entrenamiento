@@ -3,210 +3,1539 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e141a">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Rutina">
-<title>Rutina</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>Rutina de Entrenamiento</title>
 <style>
-:root{--bg:#f4f6f9;--card:#fff;--tx:#14202b;--mu:#667585;--ac:#1f6fb2;--ok:#1e9e5a;--bd:#dfe5ec;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e141a;--card:#18212a;--tx:#e8eef4;--mu:#8fa0b0;--ac:#4aa3e8;--ok:#33c47a;--bd:#2a3744}}
-:root[data-theme="dark"]{--bg:#0e141a;--card:#18212a;--tx:#e8eef4;--mu:#8fa0b0;--ac:#4aa3e8;--ok:#33c47a;--bd:#2a3744}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0 auto;background:var(--bg);color:var(--tx);font:16px/1.4 -apple-system,system-ui,"Segoe UI",Roboto,sans-serif;padding:14px 14px 160px;max-width:560px}
-h1{font-size:22px;margin:4px 0 2px}
-.sub{color:var(--mu);font-size:14px;margin-bottom:12px}
-.tabs{display:flex;gap:6px;margin-bottom:12px}
-.tab{flex:1;padding:10px 0;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;font-size:15px;font-weight:600}
-.tab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
-.prog{height:8px;background:var(--bd);border-radius:6px;overflow:hidden;margin-bottom:6px}
-.prog i{display:block;height:100%;background:var(--ok);transition:width .3s}
-.pt{font-size:13px;color:var(--mu);margin-bottom:12px}
-.win{background:var(--ok);color:#fff;border-radius:12px;padding:12px;text-align:center;font-weight:700;margin-bottom:12px}
-h2{font-size:15px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin:18px 2px 8px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:10px}
-.row{display:flex;gap:12px;align-items:center;margin-bottom:10px}
-.gif{flex:0 0 96px;width:96px;height:96px;border-radius:10px;background:#fff;border:1px solid var(--bd);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:12px;color:#667585;text-align:center}
-.gif img{width:100%;height:100%;object-fit:contain}
-.gif a{color:#1f6fb2;text-decoration:none;font-weight:600;padding:4px}
-.nm{font-weight:700}
-.mt{color:var(--mu);font-size:13px}
-.dots{display:flex;flex-wrap:wrap;gap:8px}
-.dot{width:46px;height:46px;border-radius:50%;border:2px solid var(--ac);background:transparent;color:var(--ac);font-size:16px;font-weight:700}
-.dot.done{background:var(--ok);border-color:var(--ok);color:#fff}
-.dot.next{box-shadow:0 0 0 3px color-mix(in srgb,var(--ac) 30%,transparent)}
-.dot:disabled{opacity:.4;border-color:var(--bd);color:var(--mu)}
-.note{font-size:13px;color:var(--mu);margin:8px 2px}
-.rst{width:100%;margin-top:14px;padding:12px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--mu);font-size:14px}
-#bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--bd);padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));display:none;box-shadow:0 -4px 16px rgba(0,0,0,.12)}
-#bar .in{max-width:560px;margin:0 auto}
-#bl{font-size:13px;color:var(--mu);text-align:center}
-#bt{font-size:48px;font-weight:800;text-align:center;font-variant-numeric:tabular-nums;line-height:1.1}
-#bt.work{color:var(--ac)}#bt.rest{color:var(--ok)}
-.br{display:flex;gap:8px;margin-top:8px}
-.br button{flex:1;padding:12px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:15px;font-weight:600}
+:root {
+  --bg: #0c1218;
+  --bg-soft: #121b24;
+  --card: #16222e;
+  --card-hover: #1b2a3a;
+  --tx: #f0f4f8;
+  --mu: #94a3b8;
+  --ac: #38bdf8;
+  --ac-glow: rgba(56, 189, 248, 0.25);
+  --ok: #10b981;
+  --ok-glow: rgba(16, 185, 129, 0.25);
+  --warn: #f59e0b;
+  --bd: #233446;
+  --bd-light: #2e445b;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: light) {
+  :root[data-theme="light"] {
+    --bg: #f8fafc;
+    --bg-soft: #f1f5f9;
+    --card: #ffffff;
+    --card-hover: #f8fafc;
+    --tx: #0f172a;
+    --mu: #64748b;
+    --ac: #0284c7;
+    --ac-glow: rgba(2, 132, 199, 0.18);
+    --ok: #059669;
+    --ok-glow: rgba(5, 150, 105, 0.18);
+    --warn: #d97706;
+    --bd: #e2e8f0;
+    --bd-light: #cbd5e1;
+  }
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body {
+  margin: 0 auto;
+  background: var(--bg);
+  color: var(--tx);
+  font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  padding: 16px 14px 170px;
+  max-width: 580px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Header */
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+h1 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--card);
+  border: 1px solid var(--bd);
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fb923c;
+}
+.sub {
+  color: var(--mu);
+  font-size: 13.5px;
+  margin-bottom: 12px;
+}
+
+/* Weekly streak pills */
+.week-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  background: var(--bg-soft);
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--bd);
+}
+.week-day {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--mu);
+  font-weight: 600;
+}
+.week-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--bd);
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--mu);
+}
+.week-dot.active-day {
+  border-color: var(--ac);
+  box-shadow: 0 0 0 2px var(--ac-glow);
+}
+.week-dot.done {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: #fff;
+  font-weight: 800;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 1;
+  min-width: 58px;
+  padding: 10px 0;
+  border: 1px solid var(--bd);
+  background: var(--card);
+  color: var(--tx);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.tab:active { transform: scale(0.96); }
+.tab.on {
+  background: var(--ac);
+  color: #041019;
+  border-color: var(--ac);
+  box-shadow: 0 2px 10px var(--ac-glow);
+}
+
+/* Progress bar */
+.prog-box {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+.prog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.prog-title { color: var(--tx); font-weight: 700; }
+.prog-stats { color: var(--mu); }
+.prog {
+  height: 9px;
+  background: var(--bg-soft);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--bd);
+}
+.prog i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--ac), var(--ok));
+  transition: width 0.35s ease;
+}
+
+/* Celebration win card */
+.win {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(56, 189, 248, 0.2));
+  border: 1px solid var(--ok);
+  color: var(--tx);
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 14px;
+  animation: popIn 0.3s ease;
+}
+@keyframes popIn {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Section titles & notes */
+h2 {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--mu);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 20px 2px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.note {
+  font-size: 13px;
+  color: var(--mu);
+  margin: 6px 2px 12px;
+  line-height: 1.4;
+}
+.note-warn {
+  background: rgba(245, 158, 11, 0.12);
+  border-left: 3px solid var(--warn);
+  padding: 9px 12px;
+  border-radius: 0 10px 10px 0;
+  color: #fde68a;
+  font-size: 13px;
+  margin: 8px 0 14px;
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.card:hover {
+  border-color: var(--bd-light);
+}
+.card.all-done {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(22, 34, 46, 0.85);
+}
+.row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* GIF preview box */
+.gif-box {
+  flex: 0 0 96px;
+  width: 96px;
+  height: 96px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--bd);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gif-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+.gif-box:hover img {
+  transform: scale(1.05);
+}
+.gif-expand {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border-radius: 6px;
+  padding: 2px 5px;
+  font-size: 10px;
+  font-weight: 700;
+  pointer-events: none;
+}
+.gif-fallback {
+  color: var(--ac);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  padding: 6px;
+}
+
+/* Exercise info */
+.ex-info {
+  flex: 1;
+  min-width: 0;
+}
+.nm {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--tx);
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+.mt {
+  color: var(--mu);
+  font-size: 13.5px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.pill {
+  display: inline-block;
+  background: var(--bg-soft);
+  border: 1px solid var(--bd);
+  border-radius: 6px;
+  padding: 2px 7px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mu);
+}
+.pill-timer {
+  color: var(--ac);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+.btn-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: var(--ac);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+/* Series dots */
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding-top: 4px;
+}
+.dot {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--ac);
+  background: transparent;
+  color: var(--ac);
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.dot:active {
+  transform: scale(0.9);
+}
+.dot.done {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: #ffffff;
+  box-shadow: 0 2px 8px var(--ok-glow);
+}
+.dot.next {
+  border-color: var(--ac);
+  background: rgba(56, 189, 248, 0.12);
+  box-shadow: 0 0 0 4px var(--ac-glow);
+  animation: pulseNext 2s infinite ease-in-out;
+}
+@keyframes pulseNext {
+  0%, 100% { box-shadow: 0 0 0 3px var(--ac-glow); }
+  50% { box-shadow: 0 0 0 6px var(--ac-glow); }
+}
+.dot:disabled {
+  opacity: 0.35;
+  border-color: var(--bd);
+  color: var(--mu);
+  cursor: not-allowed;
+}
+
+/* Bottom floating timer bar */
+#bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--card);
+  border-top: 1px solid var(--bd);
+  padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  display: none;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  animation: slideUp 0.25s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+#bar .in {
+  max-width: 580px;
+  margin: 0 auto;
+}
+.timer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+#bl {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--mu);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+#bmode {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+#bmode.work { background: rgba(56, 189, 248, 0.2); color: var(--ac); }
+#bmode.rest { background: rgba(16, 185, 129, 0.2); color: var(--ok); }
+.timer-mid {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 12px;
+  margin: 4px 0 8px;
+}
+#bt {
+  font-size: 52px;
+  font-weight: 800;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+#bt.work { color: var(--ac); }
+#bt.rest { color: var(--ok); }
+.timer-prog {
+  height: 5px;
+  background: var(--bg-soft);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.timer-prog i {
+  display: block;
+  height: 100%;
+  background: var(--ok);
+  transition: width 0.25s linear;
+}
+#bt.work ~ .timer-prog i { background: var(--ac); }
+.br {
+  display: flex;
+  gap: 8px;
+}
+.br button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--bd);
+  background: var(--bg-soft);
+  color: var(--tx);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.br button:active { transform: scale(0.96); background: var(--bd); }
+.br #b15 { color: var(--ac); }
+.br #bsk { color: var(--ok); }
+.br #bx { color: var(--mu); }
+
+/* Technique Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 200;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.modal-card {
+  background: var(--card);
+  border: 1px solid var(--bd-light);
+  border-radius: 20px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  padding: 20px;
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.modal-title {
+  font-size: 19px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--tx);
+}
+.modal-close {
+  background: var(--bg-soft);
+  border: 1px solid var(--bd);
+  color: var(--mu);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+}
+.modal-gif-box {
+  width: 100%;
+  height: 220px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid var(--bd);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.modal-gif-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.modal-tips {
+  margin-bottom: 16px;
+}
+.modal-tips h3 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--mu);
+  margin: 0 0 8px;
+}
+.modal-tips ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+  color: var(--tx);
+  line-height: 1.5;
+}
+.modal-tips li { margin-bottom: 6px; }
+.modal-yt-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: #dc2626;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  transition: opacity 0.2s;
+}
+.modal-yt-btn:hover { opacity: 0.9; }
+
+/* Reset button & footer */
+.rst {
+  width: 100%;
+  margin-top: 18px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--bd);
+  background: var(--card);
+  color: var(--mu);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.rst:hover { color: var(--tx); border-color: var(--bd-light); }
+.pwa-install-banner {
+  display: none;
+  background: var(--bg-soft);
+  border: 1px solid var(--ac);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.pwa-install-banner button {
+  background: var(--ac);
+  color: #041019;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
-<h1>Rutina en casa</h1>
+
+<div class="top-nav">
+  <h1>⚡ Rutina</h1>
+  <div class="streak-badge" id="streakBadge">🔥 0 días</div>
+</div>
 <div class="sub" id="dt"></div>
+
+<div class="pwa-install-banner" id="pwaBanner">
+  <div>
+    <div style="font-weight:700;font-size:14px;">Instalar como App</div>
+    <div style="font-size:12px;color:var(--mu);">Acceso rápido y offline en tu celular</div>
+  </div>
+  <button id="pwaInstallBtn">Instalar</button>
+</div>
+
+<!-- Weekly streak tracking bar -->
+<div class="week-bar" id="weekBar"></div>
+
+<!-- Day selector tabs -->
 <div class="tabs" id="tabs"></div>
+
+<!-- Daily Progress block -->
 <div id="ph"></div>
+
+<!-- Main workout container -->
 <div id="main"></div>
-<div id="bar"><div class="in">
-  <div id="bl"></div><div id="bt">0:00</div>
-  <div class="br"><button id="b15">+15 s</button><button id="bsk">Saltar</button><button id="bx">Cancelar</button></div>
-</div></div>
+
+<!-- Floating bottom timer -->
+<div id="bar">
+  <div class="in">
+    <div class="timer-header">
+      <div id="bl"></div>
+      <div id="bmode"></div>
+    </div>
+    <div class="timer-mid">
+      <div id="bt">0:00</div>
+    </div>
+    <div class="timer-prog"><i id="timerProgBar" style="width:100%"></i></div>
+    <div class="br">
+      <button id="b15">+15 s</button>
+      <button id="bsk">Saltar</button>
+      <button id="bx">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Exercise Technique Modal -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 class="modal-title" id="mTitle">Detalle de Ejercicio</h2>
+      <button class="modal-close" id="mClose">✕</button>
+    </div>
+    <div class="modal-gif-box">
+      <img id="mImg" src="" alt="Demostración">
+    </div>
+    <div class="modal-tips">
+      <h3>Consejos de Técnica y Seguridad</h3>
+      <ul id="mTips"></ul>
+    </div>
+    <a class="modal-yt-btn" id="mYt" href="#" target="_blank" rel="noopener">
+      ▶ Ver explicación técnica en YouTube
+    </a>
+  </div>
+</div>
 
 <script>
-// [nombre, series, reps, descanso(s), cronómetro(s) o 0, búsquedas del GIF (inglés)]
-var D={
-1:['Lunes · Tren superior',[['Dominadas',5,'4-8 reps',90,0,['pull-up','pull up']],['Flexiones',4,'10-15 reps',75,0,['push-up','push up']],['Fondos de tríceps en banco',3,'12-15 reps',60,0,['bench dip']],['Flexiones diamante o inclinadas',3,'al fallo −2',60,0,['diamond push-up','incline push-up']],['Colgarse de la barra',3,'30 s',60,30,['dead hang','hang','chin-up']]]],
-2:['Martes · Piernas y potencia',[['Sentadilla búlgara',4,'8-10 por pierna',90,0,['bulgarian split squat','split squat']],['Sentadilla con salto',4,'6 reps',90,0,['jump squat','squat jump']],['Zancadas caminando',3,'12 por pierna',60,0,['walking lunge','lunge']],['Puente de glúteos a una pierna',3,'12 por pierna',60,0,['single leg glute bridge','glute bridge']],['Elevación de talones',3,'20 reps',45,0,['standing calf raise','calf raise']]]],
-3:['Miércoles · Cardio y agilidad',[['Soga (1 min saltando)',10,'1 min',30,60,['jump rope','rope jump']],['Trote suave o caminata rápida',1,'15 min',0,900,['run','jog']],['Escalera de agilidad casera',8,'30 s',30,30,['agility ladder','lateral hop','side hop']]]],
-4:['Jueves · Cuerpo completo',[['Chin-ups (agarre supino)',4,'4-8 reps',90,0,['chin-up','chin up']],['Flexiones con pausa abajo',4,'8-10 reps',75,0,['push-up','push up']],['Sentadilla con pausa de 2 s',4,'12 reps',75,0,['bodyweight squat','squat']],['Remo invertido bajo mesa firme',3,'10 reps',60,0,['inverted row']],['Fondos de tríceps en banco',3,'12 reps',60,0,['bench dip']]]],
-5:['Viernes · Específico de fútbol',[['Sprints de 20-30 m',8,'1 sprint',60,0,['sprint','run']],['Intervalos 30 s fuerte / 30 s suave',10,'30 s fuerte',30,30,['high knees','mountain climber']],['Slalom o drill en T con conos',6,'1 recorrido',45,0,['cone drill','lateral shuffle','side shuffle']],['Saltos al banco',3,'6 reps',60,0,['box jump']]]]
+/* ==========================================================================
+   CATÁLOGO DE EJERCICIOS (jsDelivr CDN Ultra-Rápido)
+   ========================================================================== */
+const CDN_BASE = 'https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/';
+
+const EX_DB = {
+  // Entrada en calor
+  soga_suave: {
+    name: 'Soga suave', sets: 1, reps: '3 min', rest: 0, work: 180,
+    gif: 'cardio/jump-rope.gif',
+    tips: [
+      'Saltá sobre la parte delantera de los pies con rodillas apenas flexionadas.',
+      'El impulso del giro debe nacer de las muñecas, no de los hombros.',
+      'Ritmo relajado para entrar en calor sin agotarte.'
+    ],
+    yt: 'saltar la soga tecnica suave entrada en calor'
+  },
+  circulos_brazos: {
+    name: 'Círculos de brazos', sets: 1, reps: '30 s', rest: 0, work: 30,
+    gif: 'delts/weighted-round-arm.gif',
+    tips: [
+      'Hacé 15 segundos con giros hacia adelante y 15 hacia atrás.',
+      'Mantené el torso firme y realizá movimientos amplios y fluidos.'
+    ],
+    yt: 'circulos de brazos movilidad articular hombro'
+  },
+  rotacion_cadera: {
+    name: 'Rotación de cadera', sets: 1, reps: '30 s', rest: 0, work: 30,
+    gif: 'abductors/side-hip-abduction.gif',
+    tips: [
+      'Manos en la cintura y círculos amplios en ambos sentidos.',
+      'Mantené el pecho erguido y sentí la apertura en los flexores de cadera.'
+    ],
+    yt: 'rotacion de cadera movilidad articular'
+  },
+  gato_vaca: {
+    name: 'Gato-vaca (movilidad de columna)', sets: 1, reps: '45 s', rest: 0, work: 45,
+    gif: 'spine/sphinx.gif',
+    tips: [
+      'Inhalá al arquear la espalda llevando la mirada levemente hacia arriba (vaca).',
+      'Exhalá empujando el suelo con las manos y metiendo el ombligo (gato).'
+    ],
+    yt: 'gato vaca estiramiento columna tecnica'
+  },
+  sentadilla_aire: {
+    name: 'Sentadilla de aire', sets: 1, reps: '15 reps', rest: 0, work: 0,
+    gif: 'glutes/potty-squat-with-support.gif',
+    tips: [
+      'Pies al ancho de hombros con puntas ligeramente hacia afuera.',
+      'Bajá llevando las caderas hacia atrás manteniendo el pecho levantado.',
+      'Empujá desde los talones al subir.'
+    ],
+    yt: 'sentadilla de aire sin peso tecnica'
+  },
+  zancadas_dinamicas: {
+    name: 'Zancadas dinámicas', sets: 1, reps: '10 por pierna', rest: 0, work: 0,
+    gif: 'glutes/walking-lunge.gif',
+    tips: [
+      'Paso amplio hacia adelante; la rodilla delantera no debe sobrepasar excesivamente la punta del pie.',
+      'Mantené el torso perpendicular al suelo en todo el recorrido.'
+    ],
+    yt: 'zancadas dinamicas estocadas tecnica'
+  },
+  jumping_jacks: {
+    name: 'Jumping jacks', sets: 1, reps: '45 s', rest: 0, work: 45,
+    gif: 'cardio/star-jump-male.gif',
+    tips: [
+      'Aterrizá suavemente en punta de pies para amortiguar el impacto.',
+      'Coordiná brazos y piernas con respiración profunda.'
+    ],
+    yt: 'jumping jacks tecnica salto tijera'
+  },
+
+  // Día 1: Tren superior
+  dominadas: {
+    name: 'Dominadas', sets: 5, reps: '4-8 reps', rest: 90, work: 0,
+    gif: 'lats/pull-up.gif',
+    tips: [
+      'Agarre prono (palmas al frente), algo más ancho que los hombros.',
+      'Iniciá retrayendo las escápulas y llevá el pecho hacia la barra.',
+      'Bajá controlando la fase excéntrica completa sin dejarte caer.'
+    ],
+    yt: 'como hacer dominadas pull ups tecnica'
+  },
+  flexiones: {
+    name: 'Flexiones', sets: 4, reps: '10-15 reps', rest: 75, work: 0,
+    gif: 'pectorals/push-up.gif',
+    tips: [
+      'Codos a 45 grados respecto al cuerpo, nunca abiertos a 90° en T.',
+      'Mantené abdomen y glúteos activos formando una tabla recta.',
+      'Pecho al suelo y extensión completa arriba.'
+    ],
+    yt: 'flexiones de brazos tecnica perfecta'
+  },
+  fondos_triceps: {
+    name: 'Fondos de tríceps en banco', sets: 3, reps: '12-15 reps', rest: 60, work: 0,
+    gif: 'triceps/bench-dip-knees-bent.gif',
+    tips: [
+      'Mantené la espalda bien cerca del banco para no forzar los hombros.',
+      'Flexioná los codos hacia atrás hasta 90 grados y empujá firme arriba.'
+    ],
+    yt: 'fondos de triceps en banco tecnica'
+  },
+  flexiones_diamante: {
+    name: 'Flexiones diamante o inclinadas', sets: 3, reps: 'al fallo −2', rest: 60, work: 0,
+    gif: 'triceps/diamond-push-up.gif',
+    tips: [
+      'Uní pulgares e índices formando un diamante bajo el centro del pecho.',
+      'Si se torna muy demandante, apoyá las manos sobre una mesa o banco elevado.'
+    ],
+    yt: 'flexiones diamante tecnica correcta'
+  },
+  colgarse_barra: {
+    name: 'Colgarse de la barra', sets: 3, reps: '30 s', rest: 60, work: 30,
+    gif: 'traps/scapular-pull-up.gif',
+    tips: [
+      'Descomprime la columna lumbar y estira los hombros y dorsales.',
+      'Mantené un agarre firme y respirá profundo y relajado durante los 30 s.'
+    ],
+    yt: 'dead hang colgarse de la barra beneficios'
+  },
+
+  // Día 2: Piernas y potencia
+  sentadilla_bulgara: {
+    name: 'Sentadilla búlgara', sets: 4, reps: '8-10 por pierna', rest: 90, work: 0,
+    gif: 'quads/split-squats.gif',
+    tips: [
+      'Pie trasero apoyado sobre silla o banco; el peso recae en el pie delantero.',
+      'Descendé verticalmente sintiendo la activación del cuádriceps y glúteo.',
+      'Completá todas las repeticiones de una pierna antes de cambiar a la otra.'
+    ],
+    yt: 'sentadilla bulgara tecnica paso a paso'
+  },
+  sentadilla_salto: {
+    name: 'Sentadilla con salto', sets: 4, reps: '6 reps', rest: 90, work: 0,
+    gif: 'glutes/jump-squat.gif',
+    tips: [
+      'Impulso explosivo buscando máxima altura en cada repetición.',
+      'Aterrizá en flexión suave y controlada amortiguando con toda la planta.'
+    ],
+    yt: 'jump squat sentadilla con salto tecnica'
+  },
+  zancadas_caminando: {
+    name: 'Zancadas caminando', sets: 3, reps: '12 por pierna', rest: 60, work: 0,
+    gif: 'glutes/walking-lunge.gif',
+    tips: [
+      'Zancada amplia y constante, manteniendo el torso erguido.',
+      'Empujá desde el talón para dar el paso hacia adelante.'
+    ],
+    yt: 'walking lunges zancadas caminando tecnica'
+  },
+  puente_gluteo_1p: {
+    name: 'Puente de glúteos a una pierna', sets: 3, reps: '12 por pierna', rest: 60, work: 0,
+    gif: 'glutes/single-leg-bridge-with-outstretched-leg.gif',
+    tips: [
+      'Una pierna extendida en el aire; empujá desde el talón apoyado.',
+      'Pausá 1 segundo arriba apretando fuerte el glúteo sin hiperextender la zona lumbar.'
+    ],
+    yt: 'puente de gluteo a una pierna tecnica'
+  },
+  elevacion_talones: {
+    name: 'Elevación de talones', sets: 3, reps: '20 reps', rest: 45, work: 0,
+    gif: 'calves/bodyweight-standing-calf-raise.gif',
+    tips: [
+      'Subí lo más alto posible sobre los metatarsos y sostené arriba 1 segundo.',
+      'Descenso lento en 2 segundos para estirar bien las pantorrillas.'
+    ],
+    yt: 'elevacion de talones gemelos de pie'
+  },
+
+  // Día 3: Cardio y agilidad
+  soga_intensa: {
+    name: 'Soga (1 min saltando)', sets: 10, reps: '1 min', rest: 30, work: 60,
+    gif: 'cardio/jump-rope.gif',
+    tips: [
+      'Mantené cadencia alta y pareja durante el minuto completo.',
+      'Respiración rítmica inhalando por nariz y exhalando por boca.'
+    ],
+    yt: 'saltar la soga intervalos cardio futbol'
+  },
+  trote_suave: {
+    name: 'Trote suave o caminata rápida', sets: 1, reps: '15 min', rest: 0, work: 900,
+    gif: 'cardio/run.gif',
+    tips: [
+      'Intensidad aeróbica moderada: deberías poder hablar sin ahogarte.',
+      'Excelente para recuperación muscular y capacidad aeróbica base.'
+    ],
+    yt: 'trote suave recuperacion aerobica futbol'
+  },
+  escalera_agilidad: {
+    name: 'Escalera de agilidad casera', sets: 8, reps: '30 s', rest: 30, work: 30,
+    gif: 'cardio/skater-hops.gif',
+    tips: [
+      'Podés guiarte por las baldosas o colocar líneas imaginarias.',
+      'Pies veloces, apoyos cortos y centro de masa bajo.'
+    ],
+    yt: 'ejercicios escalera de agilidad futbol'
+  },
+
+  // Día 4: Cuerpo completo
+  chin_ups: {
+    name: 'Chin-ups (agarre supino)', sets: 4, reps: '4-8 reps', rest: 90, work: 0,
+    gif: 'lats/chin-up.gif',
+    tips: [
+      'Palmas mirando hacia vos. Excelente trabajo de bíceps y dorsal ancho.',
+      'Superá la barra con el mentón manteniendo el torso controlado.'
+    ],
+    yt: 'chin ups dominadas supinas tecnica'
+  },
+  flexiones_pausa: {
+    name: 'Flexiones con pausa abajo', sets: 4, reps: '8-10 reps', rest: 75, work: 0,
+    gif: 'pectorals/deep-push-up.gif',
+    tips: [
+      'Bajá hasta rozar el suelo y frená en seco 1-2 segundos inmóvil.',
+      'Subida explosiva rompiendo la inercia sin arquear la cintura.'
+    ],
+    yt: 'flexiones con pausa abajo calistenia'
+  },
+  sentadilla_pausa: {
+    name: 'Sentadilla con pausa de 2 s', sets: 4, reps: '12 reps', rest: 75, work: 0,
+    gif: 'glutes/potty-squat-with-support.gif',
+    tips: [
+      'Sostené 2 segundos en la posición más profunda manteniendo tensión activa.',
+      'Evitá rebotar; la fuerza para subir debe nacer de cuádriceps y glúteos.'
+    ],
+    yt: 'sentadilla con pausa tecnica'
+  },
+  remo_invertido: {
+    name: 'Remo invertido bajo mesa firme', sets: 3, reps: '10 reps', rest: 60, work: 0,
+    gif: 'upper-back/inverted-row.gif',
+    tips: [
+      'Mesa firme y estable. Agarre seguro en el borde.',
+      'Llevá el pecho a tocar el borde de la mesa, retrayendo escápulas.'
+    ],
+    yt: 'remo invertido casero en mesa'
+  },
+  fondos_banco_d4: {
+    name: 'Fondos de tríceps en banco', sets: 3, reps: '12 reps', rest: 60, work: 0,
+    gif: 'triceps/bench-dip-knees-bent.gif',
+    tips: [
+      'Espalda pegada al banco, bajada controlada.',
+      'Empuje constante hasta extender codos.'
+    ],
+    yt: 'fondos en banco triceps tecnica'
+  },
+
+  // Día 5: Específico de fútbol
+  sprints: {
+    name: 'Sprints de 20-30 m', sets: 8, reps: '1 sprint', rest: 60, work: 0,
+    gif: 'cardio/run.gif',
+    tips: [
+      'Salida potente desde postura atlética con aceleración al 95-100%.',
+      'Desacelerá progresivamente en los últimos metros para evitar frenadas bruscas.'
+    ],
+    yt: 'tecnica sprint aceleracion corta futbol'
+  },
+  intervalos_3030: {
+    name: 'Intervalos 30 s fuerte / 30 s suave', sets: 10, reps: '30 s fuerte', rest: 30, work: 30,
+    gif: 'cardio/mountain-climber.gif',
+    tips: [
+      'Durante los 30 s activos: mountain climbers intensos o skipping alto.',
+      'Durante los 30 s de descanso: caminá y regulá el aire.'
+    ],
+    yt: 'intervalos alta intensidad mountain climbers cardio'
+  },
+  slalom_drill: {
+    name: 'Slalom o drill en T con conos', sets: 6, reps: '1 recorrido', rest: 45, work: 0,
+    gif: 'cardio/skater-hops.gif',
+    tips: [
+      'Desplazamientos laterales ágiles tocando cada punto de referencia.',
+      'Trabajo específico para frenar y cambiar de dirección en la cancha.'
+    ],
+    yt: 'drill en t con conos agilidad futbol'
+  },
+  saltos_banco: {
+    name: 'Saltos al banco', sets: 3, reps: '6 reps', rest: 60, work: 0,
+    gif: 'calves/box-jump-down-with-one-leg-stabilization.gif',
+    tips: [
+      'Superficie firme y estable. Extensión total de cadera arriba.',
+      'Bajá dando un paso para proteger las articulaciones.'
+    ],
+    yt: 'box jumps saltos al banco tecnica'
+  },
+
+  // Core
+  plancha: {
+    name: 'Plancha', sets: 3, reps: '30-45 s', rest: 45, work: 40,
+    gif: 'abs/front-plank-with-twist.gif',
+    tips: [
+      '⚠️ Cuidado con la cicatriz: respirá continuo, no aguantes el aire.',
+      'Alineá talones, glúteos y hombros empujando el suelo con los antebrazos.'
+    ],
+    yt: 'plancha abdominal tecnica correcta'
+  },
+  dead_bug: {
+    name: 'Dead bug', sets: 3, reps: '10 por lado', rest: 45, work: 0,
+    gif: 'abs/dead-bug.gif',
+    tips: [
+      '⚠️ Esencial: la espalda baja debe estar totalmente pegada al suelo.',
+      'Extendé brazo y pierna opuestos de manera lenta y coordinada.'
+    ],
+    yt: 'dead bug bicho muerto ejercicio core'
+  },
+  bird_dog: {
+    name: 'Bird dog', sets: 3, reps: '10 por lado', rest: 45, work: 0,
+    gif: 'spine/sphinx.gif',
+    tips: [
+      'En cuatro apoyos, extendé brazo y pierna contraria paralelos al piso.',
+      'Mantené la pelvis nivelada sin rotar las caderas.'
+    ],
+    yt: 'bird dog ejercicio estabilidad lumbar'
+  },
+  plancha_lateral: {
+    name: 'Plancha lateral', sets: 3, reps: '20-30 s por lado', rest: 45, work: 25,
+    gif: 'abs/side-bridge-v-2.gif',
+    tips: [
+      'Codo debajo del hombro, caderas alineadas.',
+      'Activá el oblicuo inferior elevando la cadera sin inclinarte hacia adelante.'
+    ],
+    yt: 'plancha lateral oblicuos tecnica'
+  },
+  puente_gluteos: {
+    name: 'Puente de glúteos con pausa', sets: 3, reps: '12 reps', rest: 45, work: 0,
+    gif: 'glutes/barbell-glute-bridge.gif',
+    tips: [
+      'Apoyá bien los talones y apretá los glúteos arriba durante 2 segundos.',
+      'Mantené el abdomen activo sin forzar la curvatura lumbar.'
+    ],
+    yt: 'puente de gluteos en el suelo tecnica'
+  }
 };
-var C=[['Plancha',3,'30-45 s',45,40,['plank']],['Dead bug',3,'10 por lado',45,0,['dead bug']],['Bird dog',3,'10 por lado',45,0,['bird dog']],['Plancha lateral',3,'20-30 s por lado',45,25,['side plank']],['Puente de glúteos con pausa',3,'12 reps',45,0,['glute bridge']]];
-var W=[['Soga suave',1,'3 min',0,180,['jump rope','rope jump']],['Círculos de brazos',1,'30 s',0,30,['arm circles','arm circle']],['Rotación de cadera',1,'30 s',0,30,['hip circles','hip circle']],['Gato-vaca (movilidad de columna)',1,'45 s',0,45,['cat cow stretch','cat stretch','cat']],['Sentadilla de aire',1,'15 reps',0,0,['bodyweight squat','squat']],['Zancadas dinámicas',1,'10 por pierna',0,0,['walking lunge','lunge']],['Jumping jacks',1,'45 s',0,45,['jumping jack','star jump']]];
-var DN=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-var now=new Date(),dow=now.getDay(),cur=(dow>=1&&dow<=5)?dow:1;
-var dk=now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
-var S={},G={};
-try{S=JSON.parse(localStorage.getItem('rutina-v1')||'{}')}catch(e){}
-try{G=JSON.parse(localStorage.getItem('rutina-gif-v1')||'{}')}catch(e){}
-function save(){try{localStorage.setItem('rutina-v1',JSON.stringify(S))}catch(e){}}
-function saveG(){try{localStorage.setItem('rutina-gif-v1',JSON.stringify(G))}catch(e){}}
-function get(day,k){return ((S[dk]||{})[day+k])||0}
-function put(day,k,v){S[dk]=S[dk]||{};S[dk][day+k]=v;save()}
-function allEx(){var a=[];W.forEach(function(e,i){a.push(['w'+i,e])});D[cur][1].forEach(function(e,i){a.push(['e'+i,e])});C.forEach(function(e,i){a.push(['c'+i,e])});return a}
 
-/* ---------- sonido ---------- */
-var AC=null,WL=null;
-function unlock(){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}
-  try{if(navigator.wakeLock&&!WL)navigator.wakeLock.request('screen').then(function(l){WL=l;l.addEventListener('release',function(){WL=null})}).catch(function(){})}catch(e){}}
-function beep(f,d){if(!AC)return;try{var o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;g.gain.setValueAtTime(.0001,AC.currentTime);g.gain.exponentialRampToValueAtTime(.5,AC.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+d);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d+.05)}catch(e){}}
-function fmt(s){return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2)}
+/* ==========================================================================
+   ESTRUCTURA DE DÍAS Y RUTINAS
+   ========================================================================== */
+const WARMUP_KEYS = ['soga_suave', 'circulos_brazos', 'rotacion_cadera', 'gato_vaca', 'sentadilla_aire', 'zancadas_dinamicas', 'jumping_jacks'];
+const CORE_KEYS = ['plancha', 'dead_bug', 'bird_dog', 'plancha_lateral', 'puente_gluteos'];
 
-/* ---------- timer ---------- */
-var T=null,iv=null;
-function startTimer(sec,label,kind,onEnd){T={end:Date.now()+sec*1000,label:label,kind:kind,onEnd:onEnd,last:null,skip:false};clearInterval(iv);iv=setInterval(tick,250);tick()}
-function tick(){
-  var bar=document.getElementById('bar');
-  if(!T){bar.style.display='none';return}
-  var left=Math.ceil((T.end-Date.now())/1000);
-  if(left<=0){var f=T.onEnd,sk=T.skip;T=null;clearInterval(iv);bar.style.display='none';if(!sk){beep(880,.2);setTimeout(function(){beep(1100,.4)},230)}if(f)f();return}
-  if(left<=3&&T.last!==left){T.last=left;beep(660,.12)}
-  bar.style.display='block';
-  document.getElementById('bl').textContent=T.label;
-  var bt=document.getElementById('bt');bt.textContent=fmt(left);bt.className=T.kind;
+const DAYS = {
+  1: { title: 'Lunes · Tren superior', keys: ['dominadas', 'flexiones', 'fondos_triceps', 'flexiones_diamante', 'colgarse_barra'] },
+  2: { title: 'Piernas y potencia', keys: ['sentadilla_bulgara', 'sentadilla_salto', 'zancadas_caminando', 'puente_gluteo_1p', 'elevacion_talones'] },
+  3: { title: 'Cardio y agilidad', keys: ['soga_intensa', 'trote_suave', 'escalera_agilidad'] },
+  4: { title: 'Cuerpo completo', keys: ['chin_ups', 'flexiones_pausa', 'sentadilla_pausa', 'remo_invertido', 'fondos_banco_d4'] },
+  5: { title: 'Específico de fútbol', keys: ['sprints', 'intervalos_3030', 'slalom_drill', 'saltos_banco'] }
+};
+
+const DN = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+const now = new Date();
+const dow = now.getDay();
+let cur = (dow >= 1 && dow <= 5) ? dow : 1;
+const dk = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+
+/* ==========================================================================
+   ESTADO Y PERSISTENCIA (localStorage)
+   ========================================================================== */
+let S = {};
+try { S = JSON.parse(localStorage.getItem('rutina-v1') || '{}'); } catch (e) {}
+
+function save() {
+  try { localStorage.setItem('rutina-v1', JSON.stringify(S)); } catch (e) {}
 }
-document.getElementById('b15').onclick=function(){if(T){T.end+=15000;tick()}};
-document.getElementById('bsk').onclick=function(){if(T){T.skip=true;T.end=0;tick()}};
-document.getElementById('bx').onclick=function(){T=null;clearInterval(iv);tick()};
 
-/* ---------- series ---------- */
-function dotsHTML(day,k,ex){
-  var c=get(day,k),h='';
-  for(var i=0;i<ex[1];i++)h+='<button class="dot'+(i<c?' done':'')+(i===c?' next':'')+'" data-d="'+day+'" data-k="'+k+'" data-i="'+i+'"'+(i>c?' disabled':'')+'>'+(i<c?'✓':(i+1))+'</button>';
+function getDone(day, key) {
+  return ((S[dk] || {})[`${day}_${key}`]) || 0;
+}
+
+function putDone(day, key, val) {
+  S[dk] = S[dk] || {};
+  S[dk][`${day}_${key}`] = val;
+  save();
+  updateStreak();
+}
+
+function allExercisesOfDay() {
+  const list = [];
+  WARMUP_KEYS.forEach(k => list.push({ cat: 'w', key: k, data: EX_DB[k] }));
+  (DAYS[cur].keys).forEach(k => list.push({ cat: 'e', key: k, data: EX_DB[k] }));
+  CORE_KEYS.forEach(k => list.push({ cat: 'c', key: k, data: EX_DB[k] }));
+  return list;
+}
+
+/* ==========================================================================
+   AUDIO, VIBRACIÓN HÁPTICA Y WAKELOCK
+   ========================================================================== */
+let AC = null;
+let WL = null;
+
+function unlockSensory() {
+  try {
+    if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
+    if (AC.state === 'suspended') AC.resume();
+  } catch (e) {}
+  try {
+    if (navigator.wakeLock && !WL) {
+      navigator.wakeLock.request('screen').then(l => {
+        WL = l;
+        l.addEventListener('release', () => { WL = null; });
+      }).catch(() => {});
+    }
+  } catch (e) {}
+}
+
+function haptic(type) {
+  try {
+    if (!('vibrate' in navigator)) return;
+    if (type === 'tick') navigator.vibrate(35);
+    else if (type === 'warn') navigator.vibrate([70]);
+    else if (type === 'done') navigator.vibrate([180, 80, 240]);
+  } catch (e) {}
+}
+
+function beep(freq, dur) {
+  if (!AC) return;
+  try {
+    const osc = AC.createOscillator();
+    const gain = AC.createGain();
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.0001, AC.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.4, AC.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, AC.currentTime + dur);
+    osc.connect(gain);
+    gain.connect(AC.destination);
+    osc.start();
+    osc.stop(AC.currentTime + dur + 0.05);
+  } catch (e) {}
+}
+
+function fmt(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${m}:${sec < 10 ? '0' : ''}${sec}`;
+}
+
+/* ==========================================================================
+   TEMPORIZADOR FLOTANTE (Work / Rest)
+   ========================================================================== */
+let T = null;
+let iv = null;
+
+function startTimer(totalSec, label, kind, onEnd) {
+  unlockSensory();
+  T = {
+    total: totalSec,
+    end: Date.now() + totalSec * 1000,
+    label: label,
+    kind: kind,
+    onEnd: onEnd,
+    last: null,
+    skip: false
+  };
+  clearInterval(iv);
+  iv = setInterval(tick, 250);
+  tick();
+}
+
+function tick() {
+  const bar = document.getElementById('bar');
+  if (!T) {
+    bar.style.display = 'none';
+    return;
+  }
+  const left = Math.ceil((T.end - Date.now()) / 1000);
+  if (left <= 0) {
+    const f = T.onEnd;
+    const sk = T.skip;
+    T = null;
+    clearInterval(iv);
+    bar.style.display = 'none';
+    if (!sk) {
+      beep(880, 0.2);
+      haptic('done');
+      setTimeout(() => { beep(1100, 0.4); }, 220);
+    }
+    if (f) f();
+    return;
+  }
+
+  // Cuenta regresiva 3, 2, 1
+  if (left <= 3 && T.last !== left) {
+    T.last = left;
+    beep(660, 0.12);
+    haptic('warn');
+  }
+
+  bar.style.display = 'block';
+  document.getElementById('bl').textContent = T.label;
+  const bmode = document.getElementById('bmode');
+  bmode.textContent = T.kind === 'work' ? 'TRABAJO' : 'DESCANSO';
+  bmode.className = T.kind;
+
+  const bt = document.getElementById('bt');
+  bt.textContent = fmt(left);
+  bt.className = T.kind;
+
+  const pct = Math.max(0, Math.min(100, (left / T.total) * 100));
+  const progBar = document.getElementById('timerProgBar');
+  if (progBar) progBar.style.width = `${pct}%`;
+}
+
+document.getElementById('b15').onclick = () => { if (T) { T.end += 15000; T.total += 15; tick(); haptic('tick'); } };
+document.getElementById('bsk').onclick = () => { if (T) { T.skip = true; T.end = 0; tick(); } };
+document.getElementById('bx').onclick = () => { T = null; clearInterval(iv); tick(); };
+
+/* ==========================================================================
+   SERIES Y PUNTOS DE SEGUIMIENTO
+   ========================================================================== */
+function dotsHTML(day, cat, key, ex) {
+  const c = getDone(day, `${cat}_${key}`);
+  let h = '';
+  for (let i = 0; i < ex.sets; i++) {
+    const isDone = i < c;
+    const isNext = i === c;
+    h += `<button class="dot${isDone ? ' done' : ''}${isNext ? ' next' : ''}" ` +
+         `data-d="${day}" data-cat="${cat}" data-k="${key}" data-i="${i}" ${i > c ? 'disabled' : ''}>` +
+         `${isDone ? '✓' : (i + 1)}</button>`;
+  }
   return h;
 }
-function hdr(){
-  var tot=0,done=0;allEx().forEach(function(a){tot+=a[1][1];done+=get(cur,a[0])});
-  document.getElementById('ph').innerHTML='<div class="prog"><i style="width:'+(tot?done/tot*100:0)+'%"></i></div><div class="pt">'+D[cur][0]+' · '+done+' de '+tot+' series</div>'+(done===tot&&tot?'<div class="win">¡Sesión completa! 🎉</div>':'');
-}
-function update(){hdr();allEx().forEach(function(a){var el=document.getElementById('dots-'+a[0]);if(el)el.innerHTML=dotsHTML(cur,a[0],a[1])})}
-function tapDot(day,k,ex,i){
-  unlock();
-  var c=get(day,k);
-  if(i<c){put(day,k,i);update();return}
-  if(i>c)return;
-  var name=ex[0],sets=ex[1],rest=ex[3],work=ex[4];
-  function finish(){put(day,k,i+1);update();if(i+1<sets&&rest>0)startTimer(rest,'Descanso · '+name+' (serie '+(i+2)+' de '+sets+')','rest',null)}
-  if(work)startTimer(work,name+' · serie '+(i+1)+' de '+sets,'work',finish);
-  else{beep(520,.08);finish()}
+
+function renderHeaderProgress() {
+  let tot = 0;
+  let done = 0;
+  const list = allExercisesOfDay();
+  list.forEach(item => {
+    tot += item.data.sets;
+    done += getDone(cur, `${item.cat}_${item.key}`);
+  });
+
+  const pct = tot ? Math.round((done / tot) * 100) : 0;
+  const isComplete = done === tot && tot > 0;
+
+  document.getElementById('ph').innerHTML = `
+    <div class="prog-box">
+      <div class="prog-header">
+        <span class="prog-title">${DAYS[cur].title}</span>
+        <span class="prog-stats">${done} de ${tot} series (${pct}%)</span>
+      </div>
+      <div class="prog"><i style="width:${pct}%"></i></div>
+    </div>
+    ${isComplete ? '<div class="win">¡Sesión de hoy completada con éxito! 🎉🔥</div>' : ''}
+  `;
 }
 
-/* ---------- GIFs ---------- */
-var EP=['https://oss.exercisedb.dev/api/v1/exercises?search=','https://oss.exercisedb.dev/api/v1/exercises/search?q=','https://oss.exercisedb.dev/api/v1/exercises?q='];
-var goodEP=0,Q=Promise.resolve(),searchDead=false,IDX=null;
-function fetchJ(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},8000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw 0;return r.json()})}
-function collect(o,out){
-  if(Array.isArray(o))o.forEach(function(x){collect(x,out)});
-  else if(o&&typeof o==='object'){if(o.name&&(o.gifUrl||o.imageUrl))out.push(o);else Object.keys(o).forEach(function(k){collect(o[k],out)})}
-  return out;
+function updateDotsOnly() {
+  renderHeaderProgress();
+  allExercisesOfDay().forEach(item => {
+    const el = document.getElementById(`dots-${item.cat}-${item.key}`);
+    if (el) el.innerHTML = dotsHTML(cur, item.cat, item.key, item.data);
+    const cardEl = document.getElementById(`card-${item.cat}-${item.key}`);
+    if (cardEl) {
+      const c = getDone(cur, `${item.cat}_${item.key}`);
+      if (c >= item.data.sets) cardEl.classList.add('all-done');
+      else cardEl.classList.remove('all-done');
+    }
+  });
 }
-function norm(s){return String(s).toLowerCase().replace(/-/g,' ')}
-function urlOf(o){return o.gifUrl||(/\.(gif|webp)(\?|$)/i.test(o.imageUrl||'')?o.imageUrl:null)}
-function pick(list,q){
-  var tk=norm(q).split(' '),best=null,bs=0;
-  list.forEach(function(o){var u=urlOf(o);if(!u)return;var n=norm(o.name),m=0;tk.forEach(function(t){if(n.indexOf(t)>-1)m++});var s=m/tk.length-n.length/1000+(JSON.stringify(o.equipments||'').indexOf('body weight')>-1?0.05:0);if(s>bs){bs=s;best=u}});
-  return bs>=0.6?best:null;
-}
-function search(q,n){
-  n=n||0;if(searchDead)return Promise.resolve(null);if(n>=EP.length){searchDead=true;return Promise.resolve(null)}
-  var idx=(goodEP+n)%EP.length;
-  return fetchJ(EP[idx]+encodeURIComponent(q)+'&limit=25').then(function(j){var l=collect(j,[]);if(!l.length)throw 0;goodEP=idx;return pick(l,q)}).catch(function(){return search(q,n+1)});
-}
-function loadIdx(){
-  if(IDX)return IDX;
-  var all=[],off=0,pg=0;
-  function nxt(){
-    return fetchJ('https://oss.exercisedb.dev/api/v1/exercises?offset='+off+'&limit=100').then(function(j){
-      var l=collect(j,[]);
-      if(!l.length||pg>=40||(all.length&&l[0].exerciseId===all[0].exerciseId))return all;
-      all=all.concat(l);off+=l.length;pg++;return nxt();
-    });
+
+function tapDot(day, cat, key, i) {
+  unlockSensory();
+  const c = getDone(day, `${cat}_${key}`);
+  const ex = EX_DB[key];
+
+  // Deshacer si se toca una ya completada
+  if (i < c) {
+    putDone(day, `${cat}_${key}`, i);
+    haptic('tick');
+    updateDotsOnly();
+    return;
   }
-  IDX=nxt().catch(function(){return all});
-  return IDX;
-}
-function findGif(qs,i){
-  i=i||0;
-  if(i>=qs.length)return loadIdx().then(function(l){for(var j=0;j<qs.length;j++){var u=pick(l,qs[j]);if(u)return u}return null});
-  return search(qs[i]).then(function(u){return u||findGif(qs,i+1)});
-}
-function ytLink(name){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(name+' ejercicio cómo se hace')}
-function showGif(k,ex,retried){
-  var box=document.getElementById('g-'+k);if(!box)return;
-  var u=G[ex[0]];
-  if(!u){box.innerHTML='<a href="'+ytLink(ex[0])+'" target="_blank" rel="noopener">▶ Ver video</a>';return}
-  var im=new Image();im.alt=ex[0];
-  im.onerror=function(){delete G[ex[0]];saveG();if(!retried)loadGif(k,ex,true);else showGif(k,ex,true)};
-  im.src=u;box.innerHTML='';box.appendChild(im);
-}
-function loadGif(k,ex,force){
-  if(G[ex[0]]&&!force){showGif(k,ex);return}
-  Q=Q.then(function(){return findGif(ex[5])}).then(function(u){if(u){G[ex[0]]=u;saveG()}showGif(k,ex,true)},function(){showGif(k,ex,true)});
+  if (i > c) return;
+
+  const nextVal = i + 1;
+  const sets = ex.sets;
+  const rest = ex.rest;
+  const work = ex.work;
+
+  function finishSet() {
+    putDone(day, `${cat}_${key}`, nextVal);
+    haptic('tick');
+    updateDotsOnly();
+
+    // Iniciar descanso si quedan series y hay tiempo de descanso configurado
+    if (nextVal < sets && rest > 0) {
+      startTimer(rest, `Descanso · ${ex.name} (serie ${nextVal + 1} de ${sets})`, 'rest', null);
+    }
+  }
+
+  if (work > 0) {
+    startTimer(work, `${ex.name} · Serie ${nextVal} de ${sets}`, 'work', finishSet);
+  } else {
+    beep(520, 0.08);
+    finishSet();
+  }
 }
 
-/* ---------- render ---------- */
-function card(k,ex){
-  return '<div class="card"><div class="row"><div class="gif" id="g-'+k+'">…</div><div><div class="nm">'+ex[0]+'</div><div class="mt">'+ex[1]+' × '+ex[2]+(ex[3]?' · descanso '+ex[3]+' s':'')+(ex[4]?' · cronómetro '+fmt(ex[4]):'')+'</div></div></div><div class="dots" id="dots-'+k+'">'+dotsHTML(cur,k,ex)+'</div></div>';
+/* ==========================================================================
+   TARJETAS Y RENDERIZADO
+   ========================================================================== */
+function cardHTML(cat, key, ex) {
+  const c = getDone(cur, `${cat}_${key}`);
+  const isDone = c >= ex.sets;
+  const gifUrl = CDN_BASE + ex.gif;
+
+  return `
+    <div class="card${isDone ? ' all-done' : ''}" id="card-${cat}-${key}">
+      <div class="row">
+        <div class="gif-box" data-open-key="${key}" title="Tocar para ver técnica ampliada">
+          <img src="${gifUrl}" alt="${ex.name}" loading="lazy" onerror="this.parentElement.innerHTML='<a class=\\'gif-fallback\\' href=\\'https://www.youtube.com/results?search_query=${encodeURIComponent(ex.yt)}\\' target=\\'_blank\\'>▶ Ver en YouTube</a>'">
+          <div class="gif-expand">Técnica</div>
+        </div>
+        <div class="ex-info">
+          <div class="nm">${ex.name}</div>
+          <div class="mt">
+            <span class="pill">${ex.sets} × ${ex.reps}</span>
+            ${ex.rest ? `<span class="pill">Descanso: ${ex.rest} s</span>` : ''}
+            ${ex.work ? `<span class="pill pill-timer">⏱ ${fmt(ex.work)}</span>` : ''}
+          </div>
+          <button class="btn-info" data-open-key="${key}">
+            ℹ️ Consejos y postura
+          </button>
+        </div>
+      </div>
+      <div class="dots" id="dots-${cat}-${key}">
+        ${dotsHTML(cur, cat, key, ex)}
+      </div>
+    </div>
+  `;
 }
-function render(){
-  var tabs='';for(var d=1;d<=5;d++)tabs+='<button class="tab'+(d===cur?' on':'')+'" data-t="'+d+'">'+DN[d]+'</button>';
-  document.getElementById('tabs').innerHTML=tabs;
-  document.getElementById('dt').textContent=DN[dow]+' '+now.getDate()+'/'+(now.getMonth()+1)+(dow===0||dow===6?' · hoy es descanso activo':'');
-  var h='<h2>Entrada en calor (~8 min)</h2>';W.forEach(function(e,i){h+=card('w'+i,e)});h+='<h2>Bloque principal</h2>';
-  D[cur][1].forEach(function(e,i){h+=card('e'+i,e)});
-  h+='<h2>Core</h2><div class="note">Progresá de a poco; frená si sentís tirón, dolor o un bulto en la cicatriz.</div>';
-  C.forEach(function(e,i){h+=card('c'+i,e)});
-  h+='<button class="rst" id="rst">Reiniciar este día</button>';
-  document.getElementById('main').innerHTML=h;
-  hdr();
-  allEx().forEach(function(a){loadGif(a[0],a[1])});
+
+function updateStreak() {
+  // Racha semanal: contar cuántos días de la semana actual tienen al menos 1 serie hecha
+  let daysActiveThisWeek = 0;
+  const startOfWeek = new Date(now);
+  const currentDay = (dow === 0) ? 7 : dow; // 1 = Lun, 7 = Dom
+  startOfWeek.setDate(now.getDate() - currentDay + 1);
+
+  let weekHTML = '';
+  for (let d = 1; d <= 5; d++) {
+    const dayDate = new Date(startOfWeek);
+    dayDate.setDate(startOfWeek.getDate() + (d - 1));
+    const kDay = `${dayDate.getFullYear()}-${dayDate.getMonth() + 1}-${dayDate.getDate()}`;
+    const dayData = S[kDay] || {};
+    const hasActivity = Object.keys(dayData).some(k => dayData[k] > 0);
+    if (hasActivity) daysActiveThisWeek++;
+
+    const isToday = (d === dow);
+    weekHTML += `
+      <div class="week-day">
+        <div class="week-dot${hasActivity ? ' done' : ''}${isToday ? ' active-day' : ''}">
+          ${hasActivity ? '✓' : DN[d][0]}
+        </div>
+        <span>${DN[d]}</span>
+      </div>
+    `;
+  }
+  document.getElementById('weekBar').innerHTML = weekHTML;
+  document.getElementById('streakBadge').textContent = `🔥 ${daysActiveThisWeek} de 5 días`;
 }
-var rsT=null;
-document.addEventListener('click',function(ev){
-  var t=ev.target.closest('button');if(!t)return;
-  if(t.dataset.t){cur=+t.dataset.t;render();return}
-  if(t.dataset.k!==undefined&&t.dataset.i!==undefined){
-    var day=+t.dataset.d,k=t.dataset.k,ex=k[0]==='e'?D[day][1][+k.slice(1)]:(k[0]==='w'?W[+k.slice(1)]:C[+k.slice(1)]);
-    tapDot(day,k,ex,+t.dataset.i);return}
-  if(t.id==='rst'){
-    if(rsT){clearTimeout(rsT);rsT=null;if(S[dk])Object.keys(S[dk]).forEach(function(x){if(x.charAt(0)==cur)delete S[dk][x]});save();update();var b=document.getElementById('rst');if(b)b.textContent='Reiniciar este día'}
-    else{t.textContent='Tocá otra vez para confirmar';rsT=setTimeout(function(){rsT=null;var b=document.getElementById('rst');if(b)b.textContent='Reiniciar este día'},3000)}
+
+function render() {
+  // Pestañas
+  let tabs = '';
+  for (let d = 1; d <= 5; d++) {
+    tabs += `<button class="tab${d === cur ? ' on' : ''}" data-t="${d}">${DN[d]}</button>`;
+  }
+  document.getElementById('tabs').innerHTML = tabs;
+
+  // Fecha
+  document.getElementById('dt').textContent = `${DN[dow]} ${now.getDate()}/${now.getMonth() + 1}` +
+    (dow === 0 || dow === 6 ? ' · Fin de semana: descanso activo' : '');
+
+  // Contenido de ejercicios
+  let h = '';
+
+  // Entrada en calor
+  h += '<h2>🔥 Entrada en calor (~8 min)</h2>';
+  WARMUP_KEYS.forEach(k => { h += cardHTML('w', k, EX_DB[k]); });
+
+  // Bloque principal
+  h += `<h2>💪 Bloque principal · ${DAYS[cur].title}</h2>`;
+  DAYS[cur].keys.forEach(k => { h += cardHTML('e', k, EX_DB[k]); });
+
+  // Core
+  h += '<h2>🛡️ Core y Estabilidad</h2>';
+  h += '<div class="note-warn">⚠️ <strong>Cuidado de cicatriz:</strong> Progresá suave; frená de inmediato si sentís tirón, ardor, dolor o notas un bulto. Mantené respiración fluida sin aguantar el aire.</div>';
+  CORE_KEYS.forEach(k => { h += cardHTML('c', k, EX_DB[k]); });
+
+  // Reiniciar día
+  h += '<button class="rst" id="rst">Reiniciar progreso de este día</button>';
+
+  document.getElementById('main').innerHTML = h;
+
+  renderHeaderProgress();
+  updateStreak();
+}
+
+/* ==========================================================================
+   MODAL DE TÉCNICA
+   ========================================================================== */
+function openModal(key) {
+  const ex = EX_DB[key];
+  if (!ex) return;
+  document.getElementById('mTitle').textContent = ex.name;
+  document.getElementById('mImg').src = CDN_BASE + ex.gif;
+
+  const tipsList = document.getElementById('mTips');
+  tipsList.innerHTML = '';
+  ex.tips.forEach(t => {
+    const li = document.createElement('li');
+    li.textContent = t;
+    tipsList.appendChild(li);
+  });
+
+  const ytBtn = document.getElementById('mYt');
+  ytBtn.href = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex.yt)}`;
+
+  document.getElementById('modalBackdrop').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modalBackdrop').style.display = 'none';
+  document.getElementById('mImg').src = '';
+}
+
+document.getElementById('mClose').onclick = closeModal;
+document.getElementById('modalBackdrop').onclick = (e) => {
+  if (e.target.id === 'modalBackdrop') closeModal();
+};
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ==========================================================================
+   EVENT DELEGATION (Clicks, pestañas y confirmación de reset)
+   ========================================================================== */
+let rsT = null;
+document.addEventListener('click', (ev) => {
+  // Modal opener
+  const openTarget = ev.target.closest('[data-open-key]');
+  if (openTarget) {
+    openModal(openTarget.dataset.openKey);
+    return;
+  }
+
+  // Cambio de día (tab)
+  const tabBtn = ev.target.closest('button[data-t]');
+  if (tabBtn) {
+    cur = +tabBtn.dataset.t;
+    render();
+    return;
+  }
+
+  // Toque de punto de serie (dot)
+  const dotBtn = ev.target.closest('button.dot');
+  if (dotBtn && dotBtn.dataset.k !== undefined && dotBtn.dataset.i !== undefined) {
+    const day = +dotBtn.dataset.d;
+    const cat = dotBtn.dataset.cat;
+    const key = dotBtn.dataset.k;
+    const i = +dotBtn.dataset.i;
+    tapDot(day, cat, key, i);
+    return;
+  }
+
+  // Botón de reiniciar día
+  const rstBtn = ev.target.closest('#rst');
+  if (rstBtn) {
+    if (rsT) {
+      clearTimeout(rsT);
+      rsT = null;
+      if (S[dk]) {
+        Object.keys(S[dk]).forEach(k => {
+          if (k.startsWith(`${cur}_`)) delete S[dk][k];
+        });
+      }
+      save();
+      updateDotsOnly();
+      rstBtn.textContent = 'Reiniciar progreso de este día';
+    } else {
+      rstBtn.textContent = '¿Confirmar reinicio? Tocá otra vez';
+      rsT = setTimeout(() => {
+        rsT = null;
+        rstBtn.textContent = 'Reiniciar progreso de este día';
+      }, 3000);
+    }
   }
 });
+
+/* ==========================================================================
+   SERVICE WORKER Y PWA PROMPT
+   ========================================================================== */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').then(reg => {
+      console.log('ServiceWorker registrado con éxito:', reg.scope);
+    }).catch(err => {
+      console.warn('Error al registrar ServiceWorker:', err);
+    });
+  });
+}
+
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const pwaBanner = document.getElementById('pwaBanner');
+  if (pwaBanner) pwaBanner.style.display = 'flex';
+});
+
+document.getElementById('pwaInstallBtn').onclick = () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+      deferredPrompt = null;
+      document.getElementById('pwaBanner').style.display = 'none';
+    });
+  }
+};
+
+// Primer render inicial
 render();
 </script>
 </body>

@@ -1,0 +1,19 @@
+{
+  "name": "Rutina de Entrenamiento",
+  "short_name": "Rutina",
+  "description": "Seguimiento de entrenamiento diario, series, descansos y técnica de ejercicios",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0e141a",
+  "theme_color": "#0e141a",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
